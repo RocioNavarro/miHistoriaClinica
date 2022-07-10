@@ -39,6 +39,9 @@ public class Patient {
     @Column(name = "CONTACTO")
     private int contact;
 
+    @OneToOne
+    MedicalHistory medicalHistory;
+
     @ManyToMany(mappedBy = "patients")
     private List<Medic> medics = new ArrayList<>();
     public Patient() {

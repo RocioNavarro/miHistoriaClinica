@@ -5,9 +5,9 @@ import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 import org.austral.ing.lab1.model.*;
+import org.austral.ing.lab1.persistence.MedicalHistories;
 import org.austral.ing.lab1.persistence.Medics;
 import org.austral.ing.lab1.persistence.Patients;
-import org.hsqldb.persist.Cache;
 
 
 import javax.persistence.EntityManager;
@@ -16,7 +16,6 @@ import javax.persistence.Persistence;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
@@ -37,10 +36,14 @@ public class HCSystem {
     public Optional<Patient> registerPatient(RegisterPatient form) {
         return runInTransaction(datasource -> {
             final Patients patients = datasource.patients();
+            final MedicalHistories medicalHistories = datasource.medicalHistories();
             if (patients.exists(form.getDni())){
                 return Optional.empty();
         }else {
-                return Optional.of(patients.createPatient(form));
+               Optional<Patient> newPatient = Optional.of(patients.createPatient(form));
+               MedicalHistoryManager.createFromZero(newPatient);
+               medicalHistories.createMedicalHistory(MedicalHistoryManager.createFromZero(newPatient));
+                return newPatient;
             }
         });
     }
@@ -79,6 +82,12 @@ public class HCSystem {
                 ds -> ds.patients().findByDni(dni)
         );
     }
+    //Encuentra Medico por matricula
+    public Optional<Medic> findByMatricula(long matricula) {
+        return runInTransaction(
+                ds -> ds.medics().findByMatricula(matricula)
+        );
+    }
 
     //Crea Token 6 digitos
     public Token createToken(){
@@ -89,12 +98,31 @@ public class HCSystem {
         }
         return Token.create(Integer.parseInt(token));
     }
+    public String createNumber(){
+        String token= "";
+        for(int i = 1; i<=6; i++){
+            int number = (int)(Math.random()*9 + 1);
+            token += String.valueOf(number);
+        }
+        return token;
+    }
 
     //Crea Qr con un token adentro
     public BitMatrix qrCodeGenerator(Token token) throws WriterException {
         QRCodeWriter qrCodeWriter = new QRCodeWriter();
 
         return qrCodeWriter.encode(String.valueOf(token.getToken()), BarcodeFormat.QR_CODE,350,350);
+    }
+
+    public List<Patient> listPatients() {
+        return runInTransaction(
+                ds -> ds.patients().list()
+        );
+    }
+    public List<Medic> listMedics() {
+        return runInTransaction(
+                ds -> ds.medics().list()
+        );
     }
 
     //Transforma Qr en imagen
@@ -112,7 +140,6 @@ public class HCSystem {
                 ds -> ds.patients().findByMHN(mhn)
         );
     }
-
 
     private <E> E runInTransaction(Function<HCSystemRepository, E> closure){
         final EntityManager entityManager = factory.createEntityManager();
@@ -139,6 +166,7 @@ public class HCSystem {
         // Super dummy implementation. Zero security
         return foundUser.getPassword().equals(password);
     }
+
 
 
 }

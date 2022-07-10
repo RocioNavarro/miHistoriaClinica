@@ -71,6 +71,7 @@ public class Medic {
     public int getContact() {
         return contact;
     }
+
     public void addPatient(Patient patient){
         patients.add(patient);
         patient.getMedics().add(this);

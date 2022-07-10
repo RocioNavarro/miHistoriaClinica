@@ -34,7 +34,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text"> <i class="fa fa-address-card"></i> </span>
                     </div>
-                    <input id= "matricula" name="matricula" class="form-control" placeholder="Número de matrícula" type="text">
+                    <input id= "matricula" name="matricula" class="form-control" placeholder="Número de matrícula" type="number">
                 </div> <!-- form-group// -->
                 <div class="form-group input-group">
                     <div class="input-group-prepend">
@@ -46,13 +46,13 @@
                         <option value="2">+198</option>
                         <option value="3">+701</option>
                     </select>
-                    <input id= "contact" name="contact" class="form-control" placeholder="Número de teléfono" type="text">
+                    <input id= "contact" name="contact" class="form-control" placeholder="Número de teléfono" type="number">
                 </div> <!-- form-group// -->
                 <div class="form-group input-group">
                     <div class="input-group-prepend">
                         <span class="input-group-text"> <i class="fa fa-stethoscope"></i> </span>
                     </div>
-                    <select class="form-control">
+                    <select name="especialidad" type="text" class="form-control">
                         <option selected=""> Especialidad</option>
                         <option>Médico clínico</option>
                         <option>Traumatología</option>
@@ -79,13 +79,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
                     </div>
-                    <input class="form-control" placeholder="Crear contraseña" type="password">
-                </div> <!-- form-group// -->
-                <div class="form-group input-group">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
-                    </div>
-                    <input class="form-control" placeholder="Repetir contraseña" type="password">
+                    <input name="password" class="form-control" placeholder="Crear contraseña" type="password" >
                 </div> <!-- form-group// -->
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary btn-block"> Registrar  </button>

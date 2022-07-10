@@ -10,7 +10,7 @@ import java.util.List;
 
 import static org.austral.ing.lab1.json.JsonParser.fromJson;
 
-public class RegisterPatient <T>{
+public class RegisterPatient {
 
     private final String password;
     private final String name;

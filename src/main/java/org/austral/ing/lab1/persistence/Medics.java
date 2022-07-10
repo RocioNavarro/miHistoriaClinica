@@ -5,6 +5,7 @@ import org.austral.ing.lab1.model.Patient;
 import org.austral.ing.lab1.model.RegisterMedic;
 
 import javax.persistence.EntityManager;
+import java.util.List;
 import java.util.Optional;
 
 public class Medics {
@@ -27,6 +28,10 @@ public class Medics {
 
     public boolean exists(Long matricula){
         return findByMatricula(matricula).isPresent();
+    }
+
+    public List<Medic> list(){
+        return entityManager.createQuery("select u from Medic u", Medic.class).getResultList();
     }
 
     public Optional<Medic> findByMatricula(Long matricula) {

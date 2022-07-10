@@ -5,6 +5,8 @@
     <persistence-unit name="lab1">
         <class>org.austral.ing.lab1.model.Medic</class>
         <class>org.austral.ing.lab1.model.Patient</class>
+        <class>org.austral.ing.lab1.model.MedicalHistory</class>
+        <class>org.austral.ing.lab1.model.Medicamento</class>
         <class>org.austral.ing.lab1.persistence.Medics_Patients</class>
 
         <properties>

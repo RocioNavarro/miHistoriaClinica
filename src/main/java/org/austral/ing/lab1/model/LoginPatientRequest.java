@@ -29,7 +29,7 @@ public class LoginPatientRequest {
         UrlEncoded.decodeTo(body, params, "UTF-8");
 
         return LoginPatientRequest.create(
-                params.getValues("DNI"),
+                params.getValues("dni"),
                 params.getValues("password"));
     }
 

@@ -29,6 +29,8 @@ dependencies {
     implementation 'com.google.zxing:core:3.5.0'
     // https://mvnrepository.com/artifact/com.google.zxing/javase
     implementation 'com.google.zxing:javase:3.5.0'
+    //token
+    implementation 'io.jsonwebtoken:jjwt:0.2'
 
 
     implementation 'com.sparkjava:spark-core:2.9.3'

@@ -1,11 +1,10 @@
 package org.austral.ing.lab1;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
+import org.austral.ing.lab1.json.JsonParser;
 import org.austral.ing.lab1.model.*;
 import org.austral.ing.lab1.model.LoginPatientRequest;
-import spark.ModelAndView;
 import spark.Request;
-import spark.template.freemarker.FreeMarkerEngine;
 
 import java.util.*;
 
@@ -15,11 +14,6 @@ import static spark.Spark.*;
 
 public class Routes {
 
-public static final String Register_Template_Patient = "RegisterPatient.ftl";
-public static final String Register_Template_Medic = "RegisterMedic.ftl";
-public static final String LoginP_Template = "LoginPatient.ftl";
-public static final String LoginM_Template = "LoginMedic.ftl";
-private static final String HomeM_Template = "StartingHomePage.ftl";
 
 public static final String LoginP_Route = "/login_patient";
 public static final String LoginM_Route = "/login_medic";
@@ -29,10 +23,12 @@ public static final String Home_Route = "/home";
 public static final String Logout_route = "/logout";
 public static final String Patients_List ="/list_patients";
 
+
 private HCSystem system;
 
     public void create(HCSystem system){
     this.system = system;
+        JsonParser jsonParser = new JsonParser();
     routes();
 }
     private void routes(){
@@ -47,7 +43,8 @@ private HCSystem system;
             return "ok";
         });
 
-        get(RegisterPatient_Route, (request, response) -> render(Register_Template_Patient));
+        get(RegisterPatient_Route, (request, response) -> {response.redirect("registerPatient.html");
+        return halt();});
         post(RegisterPatient_Route, (request, response) -> {
             final RegisterPatient form = RegisterPatient.createFromBody(request.body());
 
@@ -58,13 +55,14 @@ private HCSystem system;
                 return halt();
             } else {
                 final Map<String,Object> model = Map.of("message", "Patient already exists");
-                return render(model, Register_Template_Patient);
+                response.redirect(RegisterPatient_Route);
+                return halt();
             }
         });
         get(RegisterMedic_Route, (request, response) -> {
             response.redirect("/registerMedic.html");
-            return halt();});
-
+            return halt();
+        });
         post(RegisterMedic_Route, (request, response) -> {
             final RegisterMedic form = RegisterMedic.createFromBody(request.body());
 
@@ -75,7 +73,8 @@ private HCSystem system;
                 return halt();
             }else{
                 final Map<String,Object> model = Map.of("message", "Medic already exists");
-                return render(model, Register_Template_Medic);
+                response.redirect("/registerMedic.html");
+                return halt();
             }
         });
 
@@ -87,7 +86,8 @@ private HCSystem system;
         post(LoginP_Route, (request, response) -> {
             final LoginPatientRequest form = LoginPatientRequest.createFromBody(request.body());
             if (system.checkLoginPatient(form).isPresent()) {
-                response.redirect("/home_patient");
+                authenticatePatient(form);
+                response.redirect("/sesion_paciente");
                 return halt();
             }else{
                 final Map<String,Object> model = Map.of("message", "Not a registered Patient, Please try again");
@@ -95,29 +95,63 @@ private HCSystem system;
                 return halt();
                 }
         });
-        get(LoginM_Route, (request, response) -> render(LoginM_Template));
+        get(LoginM_Route, (request, response) -> {response.redirect("LoginMedic.html");
+        return halt();});
         post(LoginM_Route, (request, response) -> {
             final LoginMedicRequest form = LoginMedicRequest.createFromBody(request.body());
             if (system.checkLoginMedic(form).isPresent()) {
-                response.redirect(Home_Route);
+                authenticateMedic(form);
+                response.redirect("/sesion_medico");
                 return halt();
             }else{
                 final Map<String,Object> model = Map.of("message", "Not a registered Medic, Please try again");
-                return render(model, LoginM_Template);
+                response.redirect("/LoginMedic.html");
+                return halt();
             }
         });
+
+        get(Logout_route,(request, response) -> {logout(request);
+        response.redirect(Home_Route);
+        return halt();});
+
+
         get(Home_Route, (request, response) -> {
             response.redirect("/home.html");
         return halt();});
 
+        get("/sesion_medico", (request, response) -> {
+            response.redirect("/SesionMedico.html");
+        return halt();
+        });
 
-        }
+        get("/sesion_paciente", (request, response) -> {
+            response.redirect("/SesionPaciente.html");
+            return halt();
+        });
+
+        get("/medics_list", (request, response) -> {
+            Patient patient =(getAuthenticatedPatient(request));
+            response.type("application/json");
+            return JsonParser.toJson(patient.getMedics());
+            });
+
+        get(Patients_List, (request, response) -> {
+            Medic medic =(getAuthenticatedMedic(request));
+            response.type("application/json");
+            return JsonParser.toJson(medic.getPatients());
+        });
+
+    }
 
         private final Cache<Token, Integer> dniByToken = CacheBuilder.newBuilder()
                 .expireAfterAccess(30, MINUTES)
                 .build();
 
-        private Optional<Token> authenticate(LoginPatientRequest req) {
+    private final Cache<Token, Long> matriculaByToken = CacheBuilder.newBuilder()
+            .expireAfterAccess(30, MINUTES)
+            .build();
+
+        private Optional<Token> authenticatePatient(LoginPatientRequest req) {
             return system.findByDni(req.getDni()).flatMap(foundUser -> {
                 if (system.validPassword(req.getPassword(), foundUser)) {
                     final Token token = system.createToken();
@@ -129,16 +163,29 @@ private HCSystem system;
             });
     }
     //Crear un meteodo de validacion despues de recibir un form del medico
-    private Object render(Map<String, Object> model, String template){
-            return new FreeMarkerEngine().render(new ModelAndView(model,template));
-    }
-    private Object render(String template){
-            return new FreeMarkerEngine().render(new ModelAndView(Collections.emptyMap(), template));
+    private Optional<Token> authenticateMedic(LoginMedicRequest req) {
+        return system.findByMatricula(req.getMatricula()).flatMap(foundUser -> {
+            if (system.validPassword(req.getPassword(), foundUser)) {
+                final Token token = system.createToken();
+                matriculaByToken.put(token, foundUser.getMatricula());
+                return Optional.of(token);
+            } else {
+                return Optional.empty();
+            }
+        });
     }
 
-    private Optional<Patient> getAuthenticatedPatient(Request request) {
+    private Patient getAuthenticatedPatient(Request request) {
         final int dni = request.session().attribute("patient");
-        return Optional.of(dni).flatMap(system::findByDni);
+        return Optional.of(dni).flatMap(system::findByDni).get();
+    }
+    private Medic getAuthenticatedMedic(Request request) {
+        final int matricula = request.session().attribute("medic");
+        return Optional.of(matricula).flatMap(system::findByMatricula).get();
+    }
+
+    private void logout(Request request){
+        request.session().removeAttribute("patient");
     }
 
 
