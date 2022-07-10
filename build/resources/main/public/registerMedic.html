@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Registro Médico</title>
+    <!-- Fonts CSS-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
+</head>
+<body>
+
+<link href="css/stylesSM.css" rel="stylesheet">
+
+
+<div class="container">
+
+    <div class="card bg-light">
+        <article class="card-body mx-auto" style="max-width: 400px;">
+            <h4 class="card-title mt-3 text-center">Iniciar sesión como médico</h4>
+
+            <form action="http://localhost:4321/register_medic" method="post">
+                <div class="form-group input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+                    </div>
+                    <input id= "name" name="name" class="form-control" placeholder="Nombre" type="text">
+                </div> <!-- form-group// -->
+                <div class="form-group input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+                    </div>
+                    <input id="lastname" name="lastname" class="form-control" placeholder="Apellido" type="text">
+                </div> <!-- form-group// -->
+                <div class="form-group input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"> <i class="fa fa-address-card"></i> </span>
+                    </div>
+                    <input id= "matricula" name="matricula" class="form-control" placeholder="Número de matrícula" type="text">
+                </div> <!-- form-group// -->
+                <div class="form-group input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"> <i class="fa fa-phone"></i> </span>
+                    </div>
+                    <select class="custom-select" style="max-width: 120px;">
+                        <option selected="">+54</option>
+                        <option value="1">+972</option>
+                        <option value="2">+198</option>
+                        <option value="3">+701</option>
+                    </select>
+                    <input id= "contact" name="contact" class="form-control" placeholder="Número de teléfono" type="text">
+                </div> <!-- form-group// -->
+                <div class="form-group input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"> <i class="fa fa-stethoscope"></i> </span>
+                    </div>
+                    <select class="form-control">
+                        <option selected=""> Especialidad</option>
+                        <option>Médico clínico</option>
+                        <option>Traumatología</option>
+                        <option>Dermatología</option>
+                        <option>Cardiología</option>
+                        <option>Cirugía</option>
+                        <option>Gastronterología</option>
+                        <option>Gineoclogía</option>
+                        <option>Hematología</option>
+                        <option>Infectología</option>
+                        <option>Nutrición</option>
+                        <option>Neumonología</option>
+                        <option>Oftalmología</option>
+                        <option>Oncología</option>
+                        <option>Pediatría</option>
+                        <option>Psicología</option>
+                        <option>Psiquiatría</option>
+                        <option>Oftalmología</option>
+                        <option>Toxicología</option>
+                        <option>Urología</option>
+                    </select>
+                </div> <!-- form-group end.// -->
+                <div class="form-group input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+                    </div>
+                    <input class="form-control" placeholder="Crear contraseña" type="password">
+                </div> <!-- form-group// -->
+                <div class="form-group input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+                    </div>
+                    <input class="form-control" placeholder="Repetir contraseña" type="password">
+                </div> <!-- form-group// -->
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-block"> Registrar  </button>
+                </div> <!-- form-group// -->
+                <p class="text-center">Ya estás registrado? <a href="">Iniciar sesión</a> </p>
+            </form>
+        </article>
+    </div> <!-- card.// -->
+
+</div>
+<!--container end.//-->
+
+
+</body>
+</html>

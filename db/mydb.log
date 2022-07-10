@@ -1,0 +1,9 @@
+/*C6*/SET SCHEMA PUBLIC
+drop table if exists Medic CASCADE 
+drop table if exists Medic_Patient CASCADE 
+drop table if exists Patient CASCADE 
+create table Medic (matricula bigint not null, CONTACTO integer, APELLIDO varchar(255), ESPECIALIDAD varchar(255), NOMBRE varchar(255), PASSWORD varchar(255), primary key (matricula))
+create table Medic_Patient (medics_matricula bigint not null, patients_medicalHistoryNumber bigint not null)
+create table Patient (medicalHistoryNumber bigint not null, FECHA_DE_NACIMIENTO timestamp, CONTACTO integer, DNI integer, APELLIDO varchar(255), OBRA_SOCIAL varchar(255), NOMBRE varchar(255), PASSWORD varchar(255), primary key (medicalHistoryNumber))
+alter table Medic_Patient add constraint FKf1s67wivs4q8bpae4cnmqjrfl foreign key (patients_medicalHistoryNumber) references Patient
+alter table Medic_Patient add constraint FKnvsy39h0nswkojkwfvs21h3yd foreign key (medics_matricula) references Medic
