@@ -51,7 +51,7 @@ public class MedicalHistoryManager {
     }
 
     public static MedicalHistoryManager createFromZero(Optional<Patient> patient){
-        return MedicalHistoryManager.create("","","","","","","","",patient.get());
+        return MedicalHistoryManager.create("Sin información","Sin información","Sin información","Sin información","Sin información","Sin información","Sin información","Sin información",patient.get());
     }
 
     private static MedicalHistoryManager create(List<String> enfermedad_pasada, List<String> antecedentes, List<String> observacion1, List<String> consulta, List<String> enfermedad_actual, List<String> physicalExam, List<String> positivos_y_negativos, List<String> observacion2,Patient patient) {
