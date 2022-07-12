@@ -5,6 +5,7 @@ import org.austral.ing.lab1.model.Patient;
 
 import javax.persistence.EntityManager;
 import java.util.List;
+import java.util.Optional;
 
 public class Medics_Patients {
     private final EntityManager entityManager;
@@ -13,9 +14,10 @@ public class Medics_Patients {
         this.entityManager = entityManager;
     }
 
-    public void addLink(Patient patient, Medic medic){
-        medic.addPatient(patient);
-        entityManager.persist(medic);
+    public Medic addLink(Optional<Patient> patient, Optional<Medic> medic){
+        medic.get().addPatient(patient.get());
+        entityManager.persist(medic.get());
+        return medic.get();
     }
 
     public List<Medic> listMedicsForPatient(long mhn){

@@ -169,6 +169,8 @@ public class HCSystem {
         return foundUser.getPassword().equals(password);
     }
 
-
-
+    public Medic linkPM(Optional<Medic> medic1, Optional<Patient> patient) {
+       return runInTransaction(ds ->
+               ds.medics_patients().addLink(patient,medic1));
+    }
 }

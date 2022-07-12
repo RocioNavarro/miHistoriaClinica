@@ -132,12 +132,11 @@ private HCSystem system;
         post("/medicAddPatient", (request, response) -> {
             Optional<Medic> medic = getAuthenticatedMedic(request);
             Optional<Patient> patient = system.findByDni(Integer.parseInt(request.body()));
-            return halt();
+            return system.linkPM(medic,patient);
         });
 
 
         get("/medics_list", (request, response) -> {
-            response.redirect("/MedicsList.html");
             Optional<Patient> patient =(getAuthenticatedPatient(request));
             if (isAuthorizedPatient(request)){
                Patient patient1 = patient.get();
