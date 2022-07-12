@@ -72,6 +72,10 @@ public class Medic {
         return contact;
     }
 
+    public String getMatriculaString(){
+        return "" + getMatricula();
+    }
+
     public void addPatient(Patient patient){
         patients.add(patient);
         patient.getMedics().add(this);

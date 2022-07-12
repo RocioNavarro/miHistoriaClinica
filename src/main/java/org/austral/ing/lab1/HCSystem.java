@@ -130,17 +130,20 @@ public class HCSystem {
         return MatrixToImageWriter.toBufferedImage(bitMatrix);
     }
 
-    //Aniadir medic a la lista del paciente y viceversa
-    public void addMedicToPatientList(Patient patient, Medic medic) {
-        medic.addPatient(patient);
-    }
 
     public Optional<Patient> searchByMHN(int mhn){
         return runInTransaction(
                 ds -> ds.patients().findByMHN(mhn)
         );
     }
-
+    public List<Medic> getMedics(Patient patient1) {
+        return runInTransaction(ds->
+                ds.medics_patients().listMedicsForPatient(patient1.getMedicalHistoryNumber()));
+    }
+    public List<Patient> getPatients(Medic medic1) {
+        return runInTransaction(ds->
+                ds.medics_patients().listPatientForMedics(medic1.getMatricula()));
+    }
     private <E> E runInTransaction(Function<HCSystemRepository, E> closure){
         final EntityManager entityManager = factory.createEntityManager();
         final HCSystemRepository ds = HCSystemRepository.create(entityManager);
@@ -158,12 +161,11 @@ public class HCSystem {
             entityManager.close();
         }
     }
+
     public boolean validPassword(String password, Patient foundUser) {
-        // Super dummy implementation. Zero security
         return foundUser.getPassword().equals(password);
     }
     public boolean validPassword(String password, Medic foundUser) {
-        // Super dummy implementation. Zero security
         return foundUser.getPassword().equals(password);
     }
 

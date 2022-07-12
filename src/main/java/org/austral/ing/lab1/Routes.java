@@ -12,7 +12,7 @@ import static java.util.concurrent.TimeUnit.MINUTES;
 import static spark.Spark.*;
 
 
-public class Routes {
+public class Routes{
 
 
 public static final String LoginP_Route = "/login_patient";
@@ -25,10 +25,9 @@ public static final String Patients_List ="/list_patients";
 
 
 private HCSystem system;
-
+    JsonParser jsonParser = new JsonParser();
     public void create(HCSystem system){
     this.system = system;
-        JsonParser jsonParser = new JsonParser();
     routes();
 }
     private void routes(){
@@ -129,25 +128,42 @@ private HCSystem system;
             return halt();
         });
 
+
+        post("/medicAddPatient", (request, response) -> {
+            Optional<Medic> medic = getAuthenticatedMedic(request);
+            Optional<Patient> patient = system.findByDni(Integer.parseInt(request.body()));
+            return halt();
+        });
+
+
         get("/medics_list", (request, response) -> {
-            Patient patient =(getAuthenticatedPatient(request));
+            response.redirect("/MedicsList.html");
+            Optional<Patient> patient =(getAuthenticatedPatient(request));
+            if (isAuthorizedPatient(request)){
+               Patient patient1 = patient.get();
             response.type("application/json");
-            return JsonParser.toJson(patient.getMedics());
-            });
+            return JsonParser.toJson(system.getMedics(patient1));
+            }
+            return halt();
+        });
 
         get(Patients_List, (request, response) -> {
-            Medic medic =(getAuthenticatedMedic(request));
-            response.type("application/json");
-            return JsonParser.toJson(medic.getPatients());
+            Optional<Medic> medic =(getAuthenticatedMedic(request));
+            if (isAuthorizedMedic(request)){
+                Medic medic1 = medic.get();
+                response.type("application/json");
+                return JsonParser.toJson(system.getPatients(medic1));
+            }
+            return halt();
         });
 
     }
 
-        private final Cache<Token, Integer> dniByToken = CacheBuilder.newBuilder()
+    private final Cache<Token, String> dniByToken = CacheBuilder.newBuilder()
                 .expireAfterAccess(30, MINUTES)
                 .build();
 
-    private final Cache<Token, Long> matriculaByToken = CacheBuilder.newBuilder()
+    private final Cache<Token, String> matriculaByToken = CacheBuilder.newBuilder()
             .expireAfterAccess(30, MINUTES)
             .build();
 
@@ -155,7 +171,7 @@ private HCSystem system;
             return system.findByDni(req.getDni()).flatMap(foundUser -> {
                 if (system.validPassword(req.getPassword(), foundUser)) {
                     final Token token = system.createToken();
-                    dniByToken.put(token, foundUser.getDni());
+                    dniByToken.put(token, foundUser.getDniString());
                     return Optional.of(token);
                 } else {
                     return Optional.empty();
@@ -167,7 +183,7 @@ private HCSystem system;
         return system.findByMatricula(req.getMatricula()).flatMap(foundUser -> {
             if (system.validPassword(req.getPassword(), foundUser)) {
                 final Token token = system.createToken();
-                matriculaByToken.put(token, foundUser.getMatricula());
+                matriculaByToken.put(token, foundUser.getMatriculaString());
                 return Optional.of(token);
             } else {
                 return Optional.empty();
@@ -175,13 +191,38 @@ private HCSystem system;
         });
     }
 
-    private Patient getAuthenticatedPatient(Request request) {
-        final int dni = request.session().attribute("patient");
-        return Optional.of(dni).flatMap(system::findByDni).get();
+    private boolean isAuthorizedMedic(Request request) {
+        return getToken(request).map(this::isAuthenticatedMedic).orElse(false);
     }
-    private Medic getAuthenticatedMedic(Request request) {
-        final int matricula = request.session().attribute("medic");
-        return Optional.of(matricula).flatMap(system::findByMatricula).get();
+    private boolean isAuthorizedPatient(Request request) {
+        return getToken(request).map(this::isAuthenticatedPatient).orElse(false);
+    }
+
+    private static Optional<String> getToken(Request request) {
+        return Optional.ofNullable(request.headers("Authorized")).map(Routes::getTokenFromHeader);
+    }
+
+    private static String getTokenFromHeader(String authorizationHeader) {
+        return authorizationHeader.replace("Bearer ", "");
+    }
+
+    private boolean isAuthenticatedPatient(String token) {
+        return dniByToken.getIfPresent(token) != null;
+    }
+
+    private boolean isAuthenticatedMedic(String token) {
+        return matriculaByToken.getIfPresent(token) != null;
+    }
+
+    private Optional<Patient> getAuthenticatedPatient(Request req) {
+        return getToken(req)
+                .map(dniByToken::getIfPresent)
+                .flatMap(dni -> system.findByDni(Integer.parseInt(dni)));
+    }
+    private Optional<Medic> getAuthenticatedMedic(Request req) {
+        return getToken(req)
+                .map(matriculaByToken::getIfPresent)
+                .flatMap(matricula -> system.findByMatricula(Long.parseLong(matricula)));
     }
 
     private void logout(Request request){

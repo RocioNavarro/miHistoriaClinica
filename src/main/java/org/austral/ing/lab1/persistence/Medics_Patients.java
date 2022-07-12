@@ -13,8 +13,16 @@ public class Medics_Patients {
         this.entityManager = entityManager;
     }
 
-    public List<Medic> listMedicsForPatient(int mhn){
-        Patient patient = (Patient) entityManager.createQuery("SELECT u FROM Patient where u.medicalHistoryNumber Like: mhn").getResultList().get(0);
-        return patient.getMedics();
+    public void addLink(Patient patient, Medic medic){
+        medic.addPatient(patient);
+        entityManager.persist(medic);
+    }
+
+    public List<Medic> listMedicsForPatient(long mhn){
+        return entityManager.createQuery("SELECT u FROM Patient where u.medicalHistoryNumber Like: mhn").getResultList();
+    }
+
+    public List<Patient> listPatientForMedics(long matricula) {
+        return entityManager.createQuery("select u FROM  Medic where u.matricula like: matricula").getResultList();
     }
 }
