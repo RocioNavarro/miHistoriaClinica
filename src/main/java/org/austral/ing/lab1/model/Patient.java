@@ -97,5 +97,9 @@ public class Patient {
     public List<Medic> getMedics() {
         return medics;
     }
+
+    public String getDniString(){
+        return "" + getDni();
+    }
 }
 
