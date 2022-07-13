@@ -28,6 +28,7 @@
                         </li>
                     </ul>
                 </div>
+                <a href="http://localhost:4321/home.html" class="nav-link">LOGOUT</a>
             </div>
         </nav>
         <header class="masthead bg-primary text-white text-center">
@@ -62,7 +63,7 @@
                     <!-- Portfolio Items-->
                     <div class="col-md-6 col-lg-4 mb-5">
                         <div class="portfolio-item mx-auto" data-toggle="modal" data-target="#portfolioModal0">
-                          <div class="text-center"> <h4>Link médico-paciente</h4> </div>
+                          <div class="text-center"> <h4>Link paciente</h4> </div>
                             <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
                                 <div class="portfolio-item-caption-content text-center text-white"><i class="fas fa-plus fa-3x"></i></div>
                             </div><img class="img-fluid" src="images/LinkPacienteMedico.jpeg" alt="Link médico-paciente"/>
@@ -89,7 +90,7 @@
                             <div class="row justify-content-center">
                                 <div class="col-lg-8">
                                     <!-- Portfolio Modal - Title-->
-                                    <h2 class="portfolio-modal-title text-secondary mb-0">Link médico-paciente</h2>
+                                    <h2 class="portfolio-modal-title text-secondary mb-0">Link paciente</h2>
                                     <!-- Icon Divider-->
                                     <div class="divider-custom">
                                         <div class="divider-custom-line"></div>
@@ -97,9 +98,19 @@
                                         <div class="divider-custom-line"></div>
                                     </div>
                                     <!-- Portfolio Modal - Image--><img class="img-fluid rounded mb-5" src="images/LinkPacienteMedico.jpeg" width="300" height="300" alt="Link médico-paciente"/>
-                                    <!-- Portfolio Modal - Text-->
-                                    <p class="mb-5">Abrimos cámara del médico para escanear qr o hacemos que adjunte foto del qr</p>
-                                    <button class="btn btn-primary" href="#" data-dismiss="modal"><i class="fas fa-times fa-fw"></i>Salir</button>
+                                    <form action="http://localhost:4321/login_medic" method="post">
+                                        <div class="form-floating mb-3">
+                                            <input type="number" class="form-control" id="dni" placeholder="Ingrese el DNI del paciente" name="dni">
+                                            <label for="DNI"></label>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="d-grid">
+                                                <button type="submit" class="btn btn-primary btn-block"> Linkear  </button>
+                                            </div>
+                                        </div>
+                                        <p class="text-center"><a href="http://localhost:4321/home.html" target="_self">SALIR</a> </p>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -144,15 +155,14 @@
                 <!-- Icon Divider-->
                 <div class="divider-custom divider-light">
                     <div class="divider-custom-line"></div>
-                    <div class="divider-custom-icon"><i class="fas fa-user-md"></i></div>
+                    <div class="divider-custom-icon"><i class="fas fa-heartbeat"></i></div>
                     <div class="divider-custom-line"></div>
                 </div>
                 <!-- About Section Content-->
                 <div class="text-center">
-                        <p class="pre-wrap lead">En MiHistoriaClínica podes tener acceso a toda la informacion de tus pacientes, ver sus historias clínicas, medicamentos, estudios e historial de consultas.</p>
-                    </div>
-                    </div>
+                    <p class="pre-wrap lead">En MiHistoriaClínica podes tener acceso a toda la informacion de tu salud, ver tus listas de médicos, medicamentos, estudios e historial de consultas.</p>
                 </div>
+            </div>
             </div>
         </section>
         <section class="page-section" id="contact">
@@ -164,7 +174,7 @@
                 <!-- Icon Divider-->
                 <div class="divider-custom">
                     <div class="divider-custom-line"></div>
-                    <div class="divider-custom-icon"><i class="fas fa-user-md"></i></div>
+                    <div class="divider-custom-icon"><i class="fas fa-heartbeat"></i></div>
                     <div class="divider-custom-line"></div>
                 </div>
                 <!-- Contact Section Content-->
@@ -172,14 +182,14 @@
                     <div class="col-lg-4">
                         <div class="d-flex flex-column align-items-center">
                             <div class="icon-contact mb-3"><i class="fas fa-mobile-alt"></i></div>
-                            <div class="text-muted">Phone</div>
-                            <div class="lead font-weight-bold">(555) 555-5555</div>
+                            <div class="text-muted">Teléfono</div>
+                            <div class="lead font-weight-bold">(54-11) 4379-9000 </div>
                         </div>
                     </div>
                     <div class="col-lg-4">
                         <div class="d-flex flex-column align-items-center">
                             <div class="icon-contact mb-3"><i class="far fa-envelope"></i></div>
-                            <div class="text-muted">Email</div><a class="lead font-weight-bold" href="mailto:name@example.com">name@example.com</a>
+                            <div class="text-muted">Email</div><a class="lead font-weight-bold" href="mailto:mihistoriaclinica@gmail.com.ar">mihistoriaclinica@gmail.com.ar</a>
                         </div>
                     </div>
                 </div>
@@ -190,18 +200,18 @@
                 <div class="row">
                     <!-- Footer Location-->
                     <div class="col-lg-4 mb-5 mb-lg-0">
-                        <h4 class="mb-4">LOCATION</h4>
-                        <p class="pre-wrap lead mb-0">2215 John Daniel Drive
-Clark, MO 65243</p>
+                        <h4 class="mb-4">UBICACIÓN</h4>
+                        <p class="pre-wrap lead mb-0">Argentina
+                        </p>
                     </div>
                     <!-- Footer Social Icons-->
                     <div class="col-lg-4 mb-5 mb-lg-0">
-                        <h4 class="mb-4">AROUND THE WEB</h4><a class="btn btn-outline-light btn-social mx-1" href="https://www.facebook.com/StartBootstrap"><i class="fab fa-fw fa-facebook-f"></i></a><a class="btn btn-outline-light btn-social mx-1" href="https://www.twitter.com/sbootstrap"><i class="fab fa-fw fa-twitter"></i></a><a class="btn btn-outline-light btn-social mx-1" href="https://www.linkedin.com/in/startbootstrap"><i class="fab fa-fw fa-linkedin-in"></i></a><a class="btn btn-outline-light btn-social mx-1" href="https://www.dribble.com/startbootstrap"><i class="fab fa-fw fa-dribbble"></i></a>
+                        <h4 class="mb-4"></h4><a class="btn btn-outline-light btn-social mx-1" href="https://www.facebook.com/StartBootstrap"><i class="fab fa-fw fa-facebook-f"></i></a><a class="btn btn-outline-light btn-social mx-1" href="https://www.twitter.com/sbootstrap"><i class="fab fa-fw fa-twitter"></i></a><a class="btn btn-outline-light btn-social mx-1" href="https://www.linkedin.com/in/startbootstrap"><i class="fab fa-fw fa-linkedin-in"></i></a><a class="btn btn-outline-light btn-social mx-1" href="https://www.dribble.com/startbootstrap"><i class="fab fa-fw fa-dribbble"></i></a>
                     </div>
                     <!-- Footer About Text-->
                     <div class="col-lg-4">
-                        <h4 class="mb-4">ABOUT FREELANCER</h4>
-                        <p class="pre-wrap lead mb-0">Freelance is a free to use, MIT licensed Bootstrap theme created by Start Bootstrap</p>
+                        <h4 class="mb-4">SOBRE NOSOTROS</h4>
+                        <p class="pre-wrap lead mb-0">MiHistoriaClinica es una web app creada por Pedro Castillo y Rocio Navarro</p>
                     </div>
                 </div>
             </div>
@@ -221,6 +231,6 @@ Clark, MO 65243</p>
         <script src="assets/mail/jqBootstrapValidation.js"></script>
         <script src="assets/mail/contact_me.js"></script>
         <!-- Core theme JS-->
-        <script src="js/scriptsSM.js"></script>
+        <script src="js/scripts.js"></script>
     </body>
 </html>

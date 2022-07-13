@@ -29,7 +29,7 @@
 
                     <div class="container d-flex align-items-center flex-column">
                         <!-- Masthead Image--><img class="masthead-avatar mb-5" src="images/PacientesCirculo.jpeg" alt="" width="300" height="300">
-                    <h5 class="card-title text-center mb-5 fw-light fs-5">INICIAR SESIÓN COMO PACIENTE</h5>
+                    <h5 class="card-title text-center mb-5 fw-light fs-5">Iniciar sesión como paciente</h5>
                     <form action="http://localhost:4321/login_patient" method="post">
                         <div class="form-floating mb-3">
                             <input type="number" class="form-control" id="dni" placeholder="DNI" name="dni">
@@ -40,10 +40,13 @@
                             <label for="password"></label>
                         </div>
 
-                        <div class="d-grid">
-                            <button class="btn btn-primary btn-login text-uppercase fw-bold" type="submit">Iniciar sesión </button>
+                        <div class="form-group">
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary btn-block"> Iniciar sesión  </button>
+                            </div>
                         </div>
-
+                        <p class="text-center">No estás registrado? <a href="http://localhost:4321/registerPatient.html" target="_self">Registrarse</a> </p>
+                        <p class="text-center"><a href="http://localhost:4321/home.html" target="_self">SALIR</a> </p>
                     </form>
                 </div>
             </div>

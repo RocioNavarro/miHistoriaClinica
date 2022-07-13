@@ -29,7 +29,7 @@
 
                 <div class="container d-flex align-items-center flex-column">
                 <!-- Masthead Image--><img class="masthead-avatar mb-5" src="images/MedicosCirculo.jpeg" alt="" width="300" height="300">
-                    <h5 class="card-title text-center mb-5 fw-light fs-1">INICIAR SESIÓN COMO MÉDICO</h5>
+                    <h5 class="card-title text-center mb-5 fw-light fs-1">Iniciar sesión como médico</h5>
                     <form action="http://localhost:4321/login_medic" method="post">
                         <div class="form-floating mb-3">
                             <input type="number" class="form-control" id="matricula" placeholder="Matrícula" name="matricula">
@@ -39,11 +39,13 @@
                             <input type="password" class="form-control" id="password" placeholder="Contraseña" name="password">
                             <label for="password"></label>
                         </div>
-
+                        <div class="form-group">
                         <div class="d-grid">
-                            <button class="btn btn-primary btn-login text-uppercase fw-bold" type="submit">Iniciar sesión </button>
+                            <button type="submit" class="btn btn-primary btn-block"> Iniciar sesión  </button>
                         </div>
-
+                        </div>
+                        <p class="text-center">No estás registrado? <a href="http://localhost:4321/registerMedic.html" target="_self">Registrarse</a> </p>
+                        <p class="text-center"><a href="http://localhost:4321/home.html" target="_self">SALIR</a> </p>
                     </form>
                 </div>
             </div>
