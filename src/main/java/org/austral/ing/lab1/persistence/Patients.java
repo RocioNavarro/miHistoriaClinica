@@ -4,6 +4,8 @@ import org.austral.ing.lab1.model.Patient;
 import org.austral.ing.lab1.model.RegisterPatient;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,9 +41,19 @@ public class Patients {
         return entityManager.createQuery("select u from Patient u", Patient.class).getResultList();
     }
 
+    public List<Patient> listToShowPatient(){
+        Query query = entityManager.createQuery("SELECT  p.medicalHistoryNumber,p.name, p.lastName,p.contact FROM Patient p");
+       return query.getResultList();
+    }
+
     public Optional<Patient> findByMHN(int mhn) {
         return entityManager.createQuery("SELECT u FROM Patient u WHERE u.medicalHistoryNumber LIKE :mhn", Patient.class)
                 .setParameter("mhn",mhn).getResultList().stream()
                 .findFirst();
     }
+
+    public Optional<Patient> findByName(String name){
+        return entityManager.createQuery("SELECT u FROM  Patient  u WHERE u.name like :name", Patient.class).setParameter("name",name).getResultList().stream().findFirst();
+    }
+
 }

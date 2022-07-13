@@ -42,12 +42,17 @@ public class Patient {
     @OneToOne
     MedicalHistory medicalHistory;
 
-    @ManyToMany(mappedBy = "patients")
+    @ManyToMany(cascade = {CascadeType.MERGE},mappedBy = "patients",fetch = FetchType.EAGER)
     private List<Medic> medics = new ArrayList<>();
     public Patient() {
 
     }
 
+    public Patient(String name,String lastName,long medicalHistoryNumber){
+        this.name = name;
+        this.lastName = lastName;
+        this.medicalHistoryNumber = medicalHistoryNumber;
+    }
     public Patient(String name, String lastName, String password, int dni, String lifeInsurance, Date birth, int contact) {
         this.name = name;
         this.lastName = lastName;
@@ -100,6 +105,14 @@ public class Patient {
 
     public String getDniString(){
         return "" + getDni();
+    }
+
+    public void setMedics(List<Medic> medics) {
+        this.medics = medics;
+    }
+
+    public void addMedic(Medic medic) {
+        medics.add(medic);
     }
 }
 

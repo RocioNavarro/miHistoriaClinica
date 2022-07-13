@@ -29,7 +29,7 @@ public class Medic {
     @Column(name = "CONTACTO")
     private int contact;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE})
+    @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE},fetch = FetchType.EAGER)
     private List<Patient> patients = new ArrayList<>();
     public Medic() {
 
