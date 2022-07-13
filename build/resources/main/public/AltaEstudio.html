@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Añadir estudio</title>
+    <!-- Fonts CSS-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
+</head>
+<body>
+
+<link href="css/stylesSM.css" rel="stylesheet">
+
+
+<div class="container">
+
+    <div class="card bg-light">
+        <article class="card-body mx-auto" style="max-width: 400px;">
+
+    <h4 class="card-title mt-3 text-center">Añadir estudio</h4>
+
+            <form action="http://localhost:4321/register_patient" method="post">
+                <div class="form-group input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"> <i class="fa fa-stethoscope"></i> </span>
+                    </div>
+                    <input name="name" class="form-control" placeholder="Nombre del estudio" type="text">
+                </div> <!-- form-group// -->
+                <div class="form-group input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"> <i class="fas fa-calendar-alt"></i> </span>
+                    </div>
+                    <input name="date" class="form-control" placeholder="Fecha de realización" type="date">
+                </div> <!-- form-group// -->
+                <div class="form-group input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"> <i class="fas fa-clipboard-list"></i> </span>
+                    </div>
+                    <select name="status" type="text" class="form-control">
+                        <option selected=""> Estado</option>
+                        <option>Pendiente</option>
+                        <option>En curso</option>
+                        <option>Realizado</option>
+                    </select>
+                </div> <!-- form-group end.// -->
+                <div class="form-group input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"> <i class="fas fa-inbox"></i> </span>
+                    </div>
+                    <input name="result" class="form-control" placeholder="Resultado" type="text">
+                </div> <!-- form-group// -->
+                <div class="form-group input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"> <i class="fas fa-exclamation-circle"></i> </span>
+                    </div>
+                    <input name="observation" class="form-control" placeholder="Observaciones" type="password">
+                </div> <!-- form-group// -->
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-block"> Añadir  </button>
+                </div> <!-- form-group// -->
+                <p class="text-center"><a href="http://localhost:4321/SesionPaciente.html" target="_self">SALIR</a> </p>
+            </form>
+        </article>
+    </div> <!-- card.// -->
+
+</div>
+<!--container end.//-->
+
+
+</body>
+</html>

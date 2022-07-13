@@ -11,7 +11,6 @@ public class HCSystemRepository {
     private final Medics_Patients medics_patients;
     private final Medicamentos medicamentos;
     private final MedicalHistories medicalHistories;
-    private final MedicalHistory_Medicamento medicalHistory_medicamento;
 
     public HCSystemRepository(EntityManager entityManager) {
         this.patients = new Patients(entityManager);
@@ -19,7 +18,6 @@ public class HCSystemRepository {
         this.medics_patients = new Medics_Patients(entityManager);
         this.medicamentos = new Medicamentos(entityManager);
         this.medicalHistories = new MedicalHistories(entityManager);
-        this.medicalHistory_medicamento = new MedicalHistory_Medicamento(entityManager);
     }
 
     public static HCSystemRepository create(EntityManager entityManager) {
