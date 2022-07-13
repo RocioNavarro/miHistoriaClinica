@@ -13,7 +13,7 @@ public class Medicamento {
     private String name;
 
     @Column(name = "FRECUENCIA")
-    private int frecuencyByWeek;
+    private String frecuency;
 
     @Column(name = "FECHA_DE_INICIO")
     private Date startingDate;
@@ -27,13 +27,17 @@ public class Medicamento {
     @Column(name = "NOTAS")
     private String notes;
 
-    public Medicamento(String name, int frecuencyByWeek, Date startingDate, Date endingDate, boolean currentState, String notes) {
+    public Medicamento(String name, String frecuencyByWeek, Date startingDate, Date endingDate, boolean currentState, String notes) {
         this.name = name;
-        this.frecuencyByWeek = frecuencyByWeek;
+        this.frecuency = frecuencyByWeek;
         this.startingDate = startingDate;
         this.endingDate = endingDate;
         this.currentState = currentState;
         this.notes = notes;
+    }
+
+    public Medicamento() {
+
     }
 
     public String getName() {
@@ -44,12 +48,8 @@ public class Medicamento {
         this.name = name;
     }
 
-    public int getFrecuencyByWeek() {
-        return frecuencyByWeek;
-    }
-
-    public void setFrecuencyByWeek(int frecuencyByWeek) {
-        this.frecuencyByWeek = frecuencyByWeek;
+    public String getFrecuency() {
+        return frecuency;
     }
 
     public Date getStartingDate() {
