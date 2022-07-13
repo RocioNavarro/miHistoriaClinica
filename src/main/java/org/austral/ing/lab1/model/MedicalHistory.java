@@ -20,10 +20,6 @@ public class MedicalHistory {
     @JoinColumn(name = "medicalHistoryNumber")
     private Patient patient;
 
-
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Medicamento> medicamentosEC  = new ArrayList<>();
-
     @Column(name = "ANTECEDENTES")
     private String antecedentes;
 
