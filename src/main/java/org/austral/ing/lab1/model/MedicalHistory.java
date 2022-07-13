@@ -55,6 +55,10 @@ public class MedicalHistory {
 
     }
 
+    public MedicalHistory() {
+
+    }
+
     public static MedicalHistory create(Patient patient, String enfermedades, String antecedentes, String observations1, String consult, String disease, String physicalExam, String upsAndDowns, String observations2) {
         return new MedicalHistory(patient,enfermedades,antecedentes,observations1,consult,disease,physicalExam,upsAndDowns,observations2);
     }

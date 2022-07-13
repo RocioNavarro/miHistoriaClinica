@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Crear Historia Clínica</title>
+    <!-- Fonts CSS-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
+</head>
+<body>
+
+<link href="css/stylesSM.css" rel="stylesheet">
+
+
+<div class="container">
+
+    <div class="card bg-light">
+        <article class="card-body mx-auto" style="max-width: 400px;">
+            <h4 class="card-title mt-3 text-center">Historia clínica general</h4>
+
+            <form action="http://localhost:4321/historia_clinica" method="post">
+                <div class="form-group input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"> <i class="fas fa-stethoscope"></i> </span>
+                    </div>
+                    <textarea name="enfermedades" class="form-control" placeholder="Enfermedades" type="text"></textarea>
+                </div> <!-- form-group// -->
+                <div class="form-group input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"> <i class="fas fa-stethoscope"></i> </span>
+                    </div>
+                    <textarea name="antecedentes" class="form-control" placeholder="Antecedentes familiares" type="text"></textarea>
+                </div> <!-- form-group// -->
+                <div class="form-group input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"> <i class="fas fa-stethoscope"></i> </span>
+                    </div>
+                    <textarea name="observations1" class="form-control" placeholder="Observaciones generales" type="text"></textarea>
+                </div> <!-- form-group// -->
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-block"> Crear historia clínica  </button>
+                </div> <!-- form-group// -->
+                <p class="text-center"><a href="http://localhost:4321/home.html" target="_self">SALIR</a> </p>
+            </form>
+        </article>
+    </div> <!-- card.// -->
+
+</div>
+<!--container end.//-->
+
+
+</body>
+</html>
