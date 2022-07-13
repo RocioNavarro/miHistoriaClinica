@@ -18,26 +18,27 @@ public class Medicamento {
     @Column(name = "FECHA_DE_INICIO")
     private Date startingDate;
 
-    @Column(name = "FECHA_DE_FINALIZACION")
-    private Date endingDate;
-
     @Column(name = "ESTADO")
-    private boolean currentState;
+    private String currentState;
 
     @Column(name = "NOTAS")
     private String notes;
 
-    public Medicamento(String name, String frecuencyByWeek, Date startingDate, Date endingDate, boolean currentState, String notes) {
+    public Medicamento(String name, String frecuencyByWeek, Date startingDate, String currentState, String notes) {
         this.name = name;
         this.frecuency = frecuencyByWeek;
         this.startingDate = startingDate;
-        this.endingDate = endingDate;
         this.currentState = currentState;
         this.notes = notes;
     }
 
     public Medicamento() {
 
+    }
+
+    public static Medicamento create(String name, String frecuency, Date startingDate, String status, String observation) {
+
+        return new Medicamento(name,frecuency,startingDate,status,observation);
     }
 
     public String getName() {
@@ -60,19 +61,11 @@ public class Medicamento {
         this.startingDate = startingDate;
     }
 
-    public Date getEndingDate() {
-        return endingDate;
-    }
-
-    public void setEndingDate(Date endingDate) {
-        this.endingDate = endingDate;
-    }
-
-    public boolean isCurrentState() {
+    public String isCurrentState() {
         return currentState;
     }
 
-    public void setCurrentState(boolean currentState) {
+    public void setCurrentState(String currentState) {
         this.currentState = currentState;
     }
 

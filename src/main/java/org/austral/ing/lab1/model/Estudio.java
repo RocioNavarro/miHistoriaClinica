@@ -16,7 +16,7 @@ public class Estudio {
     private Date startingDate;
 
     @Column(name = "ESTADO")
-    private boolean currentState;
+    private String currentState;
 
     @Column(name = "RESULTADO")
     private String result;
@@ -24,12 +24,17 @@ public class Estudio {
     @Column(name = "NOTAS")
     private String notes;
 
-    public Estudio(String name, Date startingDate, boolean currentState, String result, String notes) {
+    public Estudio(String name, Date startingDate, String currentState, String result, String notes) {
         this.name = name;
         this.startingDate = startingDate;
         this.currentState = currentState;
         this.result = result;
         this.notes = notes;
+    }
+
+    public static Estudio create(String name, Date startingDate, String status, String result, String observation) {
+
+        return new Estudio(name,startingDate,status,result,observation);
     }
 
     public String getName() {
@@ -48,11 +53,11 @@ public class Estudio {
         this.startingDate = startingDate;
     }
 
-    public boolean isCurrentState() {
+    public String isCurrentState() {
         return currentState;
     }
 
-    public void setCurrentState(boolean currentState) {
+    public void setCurrentState(String currentState) {
         this.currentState = currentState;
     }
 
