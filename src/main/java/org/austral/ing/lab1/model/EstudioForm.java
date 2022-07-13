@@ -24,7 +24,7 @@ public class EstudioForm {
         this.observation = observation;
     }
 
-    public static EstudioForm createFromBody(String body){
+    public static EstudioForm createFromBody(String body) {
         final MultiMap<String> params = new MultiMap<>();
         UrlEncoded.decodeTo(body, params, "UTF-8");
 
@@ -40,7 +40,7 @@ public class EstudioForm {
 
         Date date1 = parseDate(date);
 
-        return new EstudioForm(name.get(0),date1,status.get(0),result.get(0),observation.get(0));
+        return new EstudioForm(name.get(0), date1, status.get(0), result.get(0), observation.get(0));
     }
 
     private static Date parseDate(List<String> dateOfBirth) {
@@ -53,5 +53,5 @@ public class EstudioForm {
         }
     }
 
-
 }
+
