@@ -4,6 +4,7 @@ import org.austral.ing.lab1.model.Medic;
 import org.austral.ing.lab1.model.Patient;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,17 +15,27 @@ public class Medics_Patients {
         this.entityManager = entityManager;
     }
 
-    public Medic addLink(Optional<Patient> patient, Optional<Medic> medic){
-        medic.get().addPatient(patient.get());
-        entityManager.persist(medic.get());
-        return medic.get();
+    public Medic addPatient(long mhn, long matricula){
+        Medic medic = entityManager.createQuery("SELECT u FROM Medic u WHERE u.matricula LIKE :matricula", Medic.class)
+                .setParameter("matricula",matricula).getResultList().stream()
+                .findFirst().get();
+        Patient patient = entityManager.createQuery("SELECT u FROM Patient u WHERE u.medicalHistoryNumber LIKE :mhn", Patient.class)
+                .setParameter("mhn",mhn).getResultList().stream()
+                .findFirst().get();
+
+        medic.addPatient(patient);
+        entityManager.flush();
+        return medic;
     }
 
     public List<Medic> listMedicsForPatient(long mhn){
-        return entityManager.createQuery("SELECT u FROM Patient where u.medicalHistoryNumber Like: mhn").getResultList();
+        return entityManager.createQuery("SELECT u FROM Patient where u.medicalHistoryNumber Like: mhn",Patient.class).getResultList().stream().findFirst().get().getMedics();
     }
 
-    public List<Patient> listPatientForMedics(long matricula) {
-        return entityManager.createQuery("select u FROM  Medic where u.matricula like: matricula").getResultList();
+    public List<Patient> listPatientForMedics() {
+
+        Query query = entityManager.createQuery("SELECT  p.medicalHistoryNumber,p.name, p.lastName,p.contact FROM Patient p");
+        return query.getResultList();
     }
+
 }

@@ -116,7 +116,7 @@ public class HCSystem {
 
     public List<Patient> listPatients() {
         return runInTransaction(
-                ds -> ds.patients().list()
+                ds -> ds.patients().listToShowPatient()
         );
     }
     public List<Medic> listMedics() {
@@ -131,10 +131,18 @@ public class HCSystem {
     }
 
 
-    public Optional<Patient> searchByMHN(int mhn){
+    public Optional<Patient> findByMHN(int mhn){
         return runInTransaction(
                 ds -> ds.patients().findByMHN(mhn)
         );
+    }
+
+    public Optional<Patient> findByPatientName(String name){
+        return runInTransaction(ds -> ds.patients().findByName(name));
+    }
+
+    public Optional<Medic> findByMedicName(String name){
+        return runInTransaction(ds-> ds.medics().findByName(name));
     }
     public List<Medic> getMedics(Patient patient1) {
         return runInTransaction(ds->
@@ -169,8 +177,11 @@ public class HCSystem {
         return foundUser.getPassword().equals(password);
     }
 
-    public Medic linkPM(Optional<Medic> medic1, Optional<Patient> patient) {
-       return runInTransaction(ds ->
-               ds.medics_patients().addLink(patient,medic1));
+    public void linkPM(Optional<Medic> medic1, Optional<Patient> patient) {
+        Medic medic = medic1.get();
+        long matricula = medic.getMatricula();
+        Patient patient1 = patient.get();
+        long mhn = patient1.getMedicalHistoryNumber();
+        runInTransaction(ds -> ds.medics_patients().addPatient(mhn,matricula));
     }
 }

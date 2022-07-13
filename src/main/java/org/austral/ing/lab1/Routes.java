@@ -1,18 +1,19 @@
 package org.austral.ing.lab1;
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
 import org.austral.ing.lab1.json.JsonParser;
 import org.austral.ing.lab1.model.*;
 import org.austral.ing.lab1.model.LoginPatientRequest;
 import spark.Request;
+import spark.Session;
 
 import java.util.*;
 
-import static java.util.concurrent.TimeUnit.MINUTES;
 import static spark.Spark.*;
 
 
 public class Routes{
+
+    private static final String Patient_ID= "patient";
+    private static final String Medic_ID = "medic";
 
 
 public static final String LoginP_Route = "/login_patient";
@@ -25,7 +26,8 @@ public static final String Patients_List ="/list_patients";
 
 
 private HCSystem system;
-    JsonParser jsonParser = new JsonParser();
+private JsonParser jsonParser = new JsonParser();
+
     public void create(HCSystem system){
     this.system = system;
     routes();
@@ -53,7 +55,6 @@ private HCSystem system;
                 response.redirect("/login_patient");
                 return halt();
             } else {
-                final Map<String,Object> model = Map.of("message", "Patient already exists");
                 response.redirect(RegisterPatient_Route);
                 return halt();
             }
@@ -71,7 +72,6 @@ private HCSystem system;
                 response.redirect("/login_medic?ok");
                 return halt();
             }else{
-                final Map<String,Object> model = Map.of("message", "Medic already exists");
                 response.redirect("/registerMedic.html");
                 return halt();
             }
@@ -84,12 +84,12 @@ private HCSystem system;
 
         post(LoginP_Route, (request, response) -> {
             final LoginPatientRequest form = LoginPatientRequest.createFromBody(request.body());
-            if (system.checkLoginPatient(form).isPresent()) {
-                authenticatePatient(form);
+            Optional<Patient> patient = system.checkLoginPatient(form);
+            if (patient.isPresent()) {
+                setAuthenticatedPatient(request,patient.get());
                 response.redirect("/sesion_paciente");
                 return halt();
             }else{
-                final Map<String,Object> model = Map.of("message", "Not a registered Patient, Please try again");
                 redirect.get(LoginP_Route, "/LoginPatient.html");
                 return halt();
                 }
@@ -98,12 +98,12 @@ private HCSystem system;
         return halt();});
         post(LoginM_Route, (request, response) -> {
             final LoginMedicRequest form = LoginMedicRequest.createFromBody(request.body());
-            if (system.checkLoginMedic(form).isPresent()) {
-                authenticateMedic(form);
+            Optional<Medic> medic = system.checkLoginMedic(form);
+            if (medic.isPresent()) {
+                setAuthenticatedMedic(request,medic.get());
                 response.redirect("/sesion_medico");
                 return halt();
             }else{
-                final Map<String,Object> model = Map.of("message", "Not a registered Medic, Please try again");
                 response.redirect("/LoginMedic.html");
                 return halt();
             }
@@ -128,17 +128,21 @@ private HCSystem system;
             return halt();
         });
 
+        get("/medicAddPatient", (request, response) -> {
+                response.redirect("pruebaADD.html");
+        return halt();});
 
         post("/medicAddPatient", (request, response) -> {
             Optional<Medic> medic = getAuthenticatedMedic(request);
-            Optional<Patient> patient = system.findByDni(Integer.parseInt(request.body()));
-            return system.linkPM(medic,patient);
+            Optional<Patient> patient = system.findByDni(JsonParser.fromJson(request.body()));
+            system.linkPM(medic,patient);
+            return halt();
         });
 
 
         get("/medics_list", (request, response) -> {
             Optional<Patient> patient =(getAuthenticatedPatient(request));
-            if (isAuthorizedPatient(request)){
+            if (patient.isPresent()){
                Patient patient1 = patient.get();
             response.type("application/json");
             return JsonParser.toJson(system.getMedics(patient1));
@@ -148,17 +152,40 @@ private HCSystem system;
 
         get(Patients_List, (request, response) -> {
             Optional<Medic> medic =(getAuthenticatedMedic(request));
-            if (isAuthorizedMedic(request)){
+            if (medic.isPresent()){
                 Medic medic1 = medic.get();
                 response.type("application/json");
-                return JsonParser.toJson(system.getPatients(medic1));
+                return JsonParser.toJson(system.listPatients());
             }
             return halt();
         });
 
+      //  get("/historia_clinica", (request, response) -> )
+
     }
 
-    private final Cache<Token, String> dniByToken = CacheBuilder.newBuilder()
+    public void setAuthenticatedPatient(Request request, Patient patient){
+        Session session = request.session(true);
+        session.attribute(Patient_ID, patient.getMedicalHistoryNumber());
+    }
+
+    public Optional<Patient> getAuthenticatedPatient(Request request){
+        final  int patientMHN = request.session().attribute(Patient_ID);
+        return Optional.ofNullable(patientMHN).flatMap(system::findByMHN);
+    }
+
+    public void setAuthenticatedMedic(Request request, Medic medic){
+        Session session = request.session(true);
+        session.attribute(Medic_ID, medic.getMatricula());
+    }
+
+    public Optional<Medic> getAuthenticatedMedic(Request request){
+        final Long medicMatricula = request.session().attribute(Medic_ID);
+        return Optional.ofNullable(medicMatricula).flatMap(system::findByMatricula);
+    }
+
+
+    /*   private final Cache<Token, String> dniByToken = CacheBuilder.newBuilder()
                 .expireAfterAccess(30, MINUTES)
                 .build();
 
@@ -222,7 +249,7 @@ private HCSystem system;
         return getToken(req)
                 .map(matriculaByToken::getIfPresent)
                 .flatMap(matricula -> system.findByMatricula(Long.parseLong(matricula)));
-    }
+    }*/
 
     private void logout(Request request){
         request.session().removeAttribute("patient");

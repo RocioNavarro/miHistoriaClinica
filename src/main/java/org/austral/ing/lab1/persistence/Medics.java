@@ -40,5 +40,9 @@ public class Medics {
                 .findFirst();
     }
 
+    public Optional<Medic> findByName(String name){
+        return entityManager.createQuery("SELECT u FROM Medic WHERE u.name LIKE :name", Medic.class).setParameter("name",name).getResultList().stream().findFirst();
+    }
+
 
 }
