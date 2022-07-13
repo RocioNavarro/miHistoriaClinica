@@ -8,6 +8,7 @@
         <class>org.austral.ing.lab1.model.MedicalHistory</class>
         <class>org.austral.ing.lab1.model.Medicamento</class>
         <class>org.austral.ing.lab1.persistence.Medics_Patients</class>
+        <class>org.austral.ing.lab1.model.Estudio</class>
 
         <properties>
             <property name="javax.persistence.jdbc.driver" value="org.hsqldb.jdbc.JDBCDriver"/>

@@ -2,10 +2,11 @@ package org.austral.ing.lab1.persistence;
 
 import javax.persistence.EntityManager;
 
-public class MedicalHistory_Medicamento {
+public class Patient_Medicamentos {
+
     private EntityManager entityManager;
 
-    public MedicalHistory_Medicamento(EntityManager entityManager) {
+    public Patient_Medicamentos(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
 }

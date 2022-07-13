@@ -35,6 +35,12 @@ public class Medic {
 
     }
 
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Medicamento> medicamentos  = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Medicamento> estudios  = new ArrayList<>();
+
     public Medic(Long matricula, String name, String lastName, String password, String medicalSpecialty, int contact) {
         this.matricula = matricula;
         this.name = name;
@@ -85,5 +91,19 @@ public class Medic {
         return patients;
     }
 
+    public List<Medicamento> getMedicamentos() {
+        return medicamentos;
+    }
 
+    public void setMedicamentos(List<Medicamento> medicamentos) {
+        this.medicamentos = medicamentos;
+    }
+
+    public List<Medicamento> getEstudios() {
+        return estudios;
+    }
+
+    public void setEstudios(List<Medicamento> estudios) {
+        this.estudios = estudios;
+    }
 }
