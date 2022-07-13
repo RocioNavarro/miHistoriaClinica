@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Mis pacientes</title>
+
+    <script src=
+                    "https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js">
+    </script>
+
+    <!-- Fonts CSS-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/animate.css">
+    <link rel="stylesheet" href="css/styles.css">
+
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="css/stylesLM.css" rel="stylesheet">
+    <!-- Fonts CSS-->
+    <link rel="stylesheet" href="css/headingSM.css">
+    <link rel="stylesheet" href="css/bodySM.css">
+
+</head>
+
+<body>
+
+<script>
+
+    $( document ).ready(function() {
+        var lista;
+
+        $.ajax({
+            url: "/list_patients",
+            cache: false,
+            type: "GET",
+            async: false,
+            success: function(response) {
+                // Esta es la función que se ejecuta cuando recibe el jSon (response) del back-end
+                lista = response;
+                alert(lista);
+            },
+            error: function(xhr) {
+                alert("error");
+            }
+        });
+        alert("Antes del constructTable");
+        lista = [
+            {"MH": 10004, "Name": "pepe"},
+            {"MH": 10040, "Name": "agus"},
+            {"MH": 10059, "Name": "rochi"}
+        ];
+        constructTable(lista);
+
+    });
+
+
+    function constructTable(data) {
+
+        // Traversing the JSON data
+        $.each(data, function(i, item) {
+            alert(item[i].Name);
+        });
+    }
+
+    function Headers(list, selector) {
+        var columns = [];
+        var header = $('<tr/>');
+
+        for (var i = 0; i < list.length; i++) {
+            var row = list[i];
+
+            for (var k in row) {
+                if ($.inArray(k, columns) == -1) {
+                    columns.push(k);
+
+                    // Creating the header
+                    header.append($('<th/>').html(k));
+                }
+            }
+        }
+
+        // Appending the header to the table
+        $(selector).append(header);
+        return columns;
+    }
+</script>
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+            <div class="card border-0 shadow rounded-3 my-5">
+                <div class="container d-flex align-items-center flex-column">
+                    <!-- Masthead Image--><img class="masthead-avatar mb-5" src="images/PacientesCirculo.jpeg" alt="" width="300" height="300">
+                    <h5 class="card-title text-center mb-5 fw-light fs-1">MIS PACIENTES</h5>
+
+                    <!-- Tabla medicos -->
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">N° HC </th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Apellido</th>
+                            <th scope="col">Contacto</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-body p-4 p-sm-5">
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</body>
+

@@ -1780,3 +1780,362 @@ alter table Medic_Patient add constraint FKf1s67wivs4q8bpae4cnmqjrfl foreign key
 alter table Medic_Patient add constraint FKnvsy39h0nswkojkwfvs21h3yd foreign key (medics_matricula) references Medic
 alter table MedicalHistory add constraint FKl9mwkff2s35jwt9cg5swsnad6 foreign key (medicalHistoryNumber) references Patient
 alter table Patient add constraint FKhv4acx2p5kfc8kvg8iiv1v8me foreign key (medicalHistory_medicalHistoryNumber) references MedicalHistory
+DISCONNECT
+/*C87*/SET SCHEMA PUBLIC
+drop table if exists Estudio CASCADE 
+drop table if exists Medic CASCADE 
+drop table if exists Medic_Medicamento CASCADE 
+drop table if exists Medic_Patient CASCADE 
+drop table if exists MedicalHistory CASCADE 
+drop table if exists Medicamento CASCADE 
+drop table if exists Patient CASCADE 
+create table Estudio (NOMBRE varchar(255) not null, ESTADO varchar(255), NOTAS varchar(255), RESULTADO varchar(255), FECHA_DE_REALIZACION timestamp, primary key (NOMBRE))
+create table Medic (matricula bigint not null, CONTACTO integer, APELLIDO varchar(255), ESPECIALIDAD varchar(255), NOMBRE varchar(255), PASSWORD varchar(255), primary key (matricula))
+create table Medic_Medicamento (Medic_matricula bigint not null, medicamentos_name varchar(255) not null, estudios_name varchar(255) not null)
+create table Medic_Patient (medics_matricula bigint not null, patients_medicalHistoryNumber bigint not null)
+create table MedicalHistory (medicalHistoryNumber bigint not null, ANTECEDENTES varchar(255), MOTIVO_DE_CONSULTA varchar(255), ENFERMEDAD_ACTUAL varchar(255), ENFERMEDADES_PASADAS varchar(255), OBSERVACIONES_1 varchar(255), OBSERVACIONES_2 varchar(255), EXAMEN_FISICO varchar(255), DATOS_POSITIVOS_Y_NEGATIVOS varchar(255), primary key (medicalHistoryNumber))
+create table Medicamento (name varchar(255) not null, ESTADO varchar(255), FRECUENCIA varchar(255), NOTAS varchar(255), FECHA_DE_INICIO timestamp, primary key (name))
+create table Patient (medicalHistoryNumber bigint not null, FECHA_DE_NACIMIENTO timestamp, CONTACTO integer, DNI integer, APELLIDO varchar(255), OBRA_SOCIAL varchar(255), NOMBRE varchar(255), PASSWORD varchar(255), medicalHistory_medicalHistoryNumber bigint, primary key (medicalHistoryNumber))
+alter table Medic_Medicamento add constraint UK_fkoy1209o8uqjbshpt4oonufk unique (medicamentos_name)
+alter table Medic_Medicamento add constraint UK_g5mxmj45eackkkgtwcb3bb6a2 unique (estudios_name)
+alter table Medic_Medicamento add constraint FKkv1df3j4hbpeawx9vvna8wbf7 foreign key (medicamentos_name) references Medicamento
+alter table Medic_Medicamento add constraint FK5a2e4t1pyfq3oxxhjocwkesjw foreign key (Medic_matricula) references Medic
+alter table Medic_Medicamento add constraint FKooe4q8hvpxf0aaq93erblf5n8 foreign key (estudios_name) references Medicamento
+alter table Medic_Patient add constraint FKf1s67wivs4q8bpae4cnmqjrfl foreign key (patients_medicalHistoryNumber) references Patient
+alter table Medic_Patient add constraint FKnvsy39h0nswkojkwfvs21h3yd foreign key (medics_matricula) references Medic
+alter table MedicalHistory add constraint FKl9mwkff2s35jwt9cg5swsnad6 foreign key (medicalHistoryNumber) references Patient
+alter table Patient add constraint FKhv4acx2p5kfc8kvg8iiv1v8me foreign key (medicalHistory_medicalHistoryNumber) references MedicalHistory
+INSERT INTO PATIENT VALUES(1,'0001-11-11 00:00:00.000000',123,123,'Navarro','Osde','Rocio','123',NULL)
+INSERT INTO MEDICALHISTORY VALUES(1,'Sin informaci\u00f3n','Sin informaci\u00f3n','Sin informaci\u00f3n','Sin informaci\u00f3n','Sin informaci\u00f3n','Sin informaci\u00f3n','Sin informaci\u00f3n','Sin informaci\u00f3n')
+COMMIT
+INSERT INTO MEDIC VALUES(111,111,'Navarro','Pediatr\u00eda','Rocio','111')
+COMMIT
+INSERT INTO MEDIC_PATIENT VALUES(111,1)
+COMMIT
+INSERT INTO MEDIC VALUES(123,123,'Navarro','Pediatr\u00eda','Rocio','123')
+COMMIT
+DISCONNECT
+/*C88*/SET SCHEMA PUBLIC
+drop table if exists Estudio CASCADE 
+drop table if exists Medic CASCADE 
+drop table if exists Medic_Medicamento CASCADE 
+drop table if exists Medic_Patient CASCADE 
+drop table if exists MedicalHistory CASCADE 
+drop table if exists Medicamento CASCADE 
+drop table if exists Patient CASCADE 
+create table Estudio (NOMBRE varchar(255) not null, ESTADO varchar(255), NOTAS varchar(255), RESULTADO varchar(255), FECHA_DE_REALIZACION timestamp, primary key (NOMBRE))
+create table Medic (matricula bigint not null, CONTACTO integer, APELLIDO varchar(255), ESPECIALIDAD varchar(255), NOMBRE varchar(255), PASSWORD varchar(255), primary key (matricula))
+create table Medic_Medicamento (Medic_matricula bigint not null, medicamentos_name varchar(255) not null, estudios_name varchar(255) not null)
+create table Medic_Patient (medics_matricula bigint not null, patients_medicalHistoryNumber bigint not null)
+create table MedicalHistory (medicalHistoryNumber bigint not null, ANTECEDENTES varchar(255), MOTIVO_DE_CONSULTA varchar(255), ENFERMEDAD_ACTUAL varchar(255), ENFERMEDADES_PASADAS varchar(255), OBSERVACIONES_1 varchar(255), OBSERVACIONES_2 varchar(255), EXAMEN_FISICO varchar(255), DATOS_POSITIVOS_Y_NEGATIVOS varchar(255), primary key (medicalHistoryNumber))
+create table Medicamento (name varchar(255) not null, ESTADO varchar(255), FRECUENCIA varchar(255), NOTAS varchar(255), FECHA_DE_INICIO timestamp, primary key (name))
+create table Patient (medicalHistoryNumber bigint not null, FECHA_DE_NACIMIENTO timestamp, CONTACTO integer, DNI integer, APELLIDO varchar(255), OBRA_SOCIAL varchar(255), NOMBRE varchar(255), PASSWORD varchar(255), medicalHistory_medicalHistoryNumber bigint, primary key (medicalHistoryNumber))
+alter table Medic_Medicamento add constraint UK_fkoy1209o8uqjbshpt4oonufk unique (medicamentos_name)
+alter table Medic_Medicamento add constraint UK_g5mxmj45eackkkgtwcb3bb6a2 unique (estudios_name)
+alter table Medic_Medicamento add constraint FKkv1df3j4hbpeawx9vvna8wbf7 foreign key (medicamentos_name) references Medicamento
+alter table Medic_Medicamento add constraint FK5a2e4t1pyfq3oxxhjocwkesjw foreign key (Medic_matricula) references Medic
+alter table Medic_Medicamento add constraint FKooe4q8hvpxf0aaq93erblf5n8 foreign key (estudios_name) references Medicamento
+alter table Medic_Patient add constraint FKf1s67wivs4q8bpae4cnmqjrfl foreign key (patients_medicalHistoryNumber) references Patient
+alter table Medic_Patient add constraint FKnvsy39h0nswkojkwfvs21h3yd foreign key (medics_matricula) references Medic
+alter table MedicalHistory add constraint FKl9mwkff2s35jwt9cg5swsnad6 foreign key (medicalHistoryNumber) references Patient
+alter table Patient add constraint FKhv4acx2p5kfc8kvg8iiv1v8me foreign key (medicalHistory_medicalHistoryNumber) references MedicalHistory
+DISCONNECT
+/*C89*/SET SCHEMA PUBLIC
+drop table if exists Estudio CASCADE 
+drop table if exists Medic CASCADE 
+drop table if exists Medic_Medicamento CASCADE 
+drop table if exists Medic_Patient CASCADE 
+drop table if exists MedicalHistory CASCADE 
+drop table if exists Medicamento CASCADE 
+drop table if exists Patient CASCADE 
+create table Estudio (NOMBRE varchar(255) not null, ESTADO varchar(255), NOTAS varchar(255), RESULTADO varchar(255), FECHA_DE_REALIZACION timestamp, primary key (NOMBRE))
+create table Medic (matricula bigint not null, CONTACTO integer, APELLIDO varchar(255), ESPECIALIDAD varchar(255), NOMBRE varchar(255), PASSWORD varchar(255), primary key (matricula))
+create table Medic_Medicamento (Medic_matricula bigint not null, medicamentos_name varchar(255) not null, estudios_name varchar(255) not null)
+create table Medic_Patient (medics_matricula bigint not null, patients_medicalHistoryNumber bigint not null)
+create table MedicalHistory (medicalHistoryNumber bigint not null, ANTECEDENTES varchar(255), MOTIVO_DE_CONSULTA varchar(255), ENFERMEDAD_ACTUAL varchar(255), ENFERMEDADES_PASADAS varchar(255), OBSERVACIONES_1 varchar(255), OBSERVACIONES_2 varchar(255), EXAMEN_FISICO varchar(255), DATOS_POSITIVOS_Y_NEGATIVOS varchar(255), primary key (medicalHistoryNumber))
+create table Medicamento (name varchar(255) not null, ESTADO varchar(255), FRECUENCIA varchar(255), NOTAS varchar(255), FECHA_DE_INICIO timestamp, primary key (name))
+create table Patient (medicalHistoryNumber bigint not null, FECHA_DE_NACIMIENTO timestamp, CONTACTO integer, DNI integer, APELLIDO varchar(255), OBRA_SOCIAL varchar(255), NOMBRE varchar(255), PASSWORD varchar(255), medicalHistory_medicalHistoryNumber bigint, primary key (medicalHistoryNumber))
+alter table Medic_Medicamento add constraint UK_fkoy1209o8uqjbshpt4oonufk unique (medicamentos_name)
+alter table Medic_Medicamento add constraint UK_g5mxmj45eackkkgtwcb3bb6a2 unique (estudios_name)
+alter table Medic_Medicamento add constraint FKkv1df3j4hbpeawx9vvna8wbf7 foreign key (medicamentos_name) references Medicamento
+alter table Medic_Medicamento add constraint FK5a2e4t1pyfq3oxxhjocwkesjw foreign key (Medic_matricula) references Medic
+alter table Medic_Medicamento add constraint FKooe4q8hvpxf0aaq93erblf5n8 foreign key (estudios_name) references Medicamento
+alter table Medic_Patient add constraint FKf1s67wivs4q8bpae4cnmqjrfl foreign key (patients_medicalHistoryNumber) references Patient
+alter table Medic_Patient add constraint FKnvsy39h0nswkojkwfvs21h3yd foreign key (medics_matricula) references Medic
+alter table MedicalHistory add constraint FKl9mwkff2s35jwt9cg5swsnad6 foreign key (medicalHistoryNumber) references Patient
+alter table Patient add constraint FKhv4acx2p5kfc8kvg8iiv1v8me foreign key (medicalHistory_medicalHistoryNumber) references MedicalHistory
+DISCONNECT
+/*C90*/SET SCHEMA PUBLIC
+drop table if exists Estudio CASCADE 
+drop table if exists Medic CASCADE 
+drop table if exists Medic_Medicamento CASCADE 
+drop table if exists Medic_Patient CASCADE 
+drop table if exists MedicalHistory CASCADE 
+drop table if exists Medicamento CASCADE 
+drop table if exists Patient CASCADE 
+create table Estudio (NOMBRE varchar(255) not null, ESTADO varchar(255), NOTAS varchar(255), RESULTADO varchar(255), FECHA_DE_REALIZACION timestamp, primary key (NOMBRE))
+create table Medic (matricula bigint not null, CONTACTO integer, APELLIDO varchar(255), ESPECIALIDAD varchar(255), NOMBRE varchar(255), PASSWORD varchar(255), primary key (matricula))
+create table Medic_Medicamento (Medic_matricula bigint not null, medicamentos_name varchar(255) not null, estudios_name varchar(255) not null)
+create table Medic_Patient (medics_matricula bigint not null, patients_medicalHistoryNumber bigint not null)
+create table MedicalHistory (medicalHistoryNumber bigint not null, ANTECEDENTES varchar(255), MOTIVO_DE_CONSULTA varchar(255), ENFERMEDAD_ACTUAL varchar(255), ENFERMEDADES_PASADAS varchar(255), OBSERVACIONES_1 varchar(255), OBSERVACIONES_2 varchar(255), EXAMEN_FISICO varchar(255), DATOS_POSITIVOS_Y_NEGATIVOS varchar(255), primary key (medicalHistoryNumber))
+create table Medicamento (name varchar(255) not null, ESTADO varchar(255), FRECUENCIA varchar(255), NOTAS varchar(255), FECHA_DE_INICIO timestamp, primary key (name))
+create table Patient (medicalHistoryNumber bigint not null, FECHA_DE_NACIMIENTO timestamp, CONTACTO integer, DNI integer, APELLIDO varchar(255), OBRA_SOCIAL varchar(255), NOMBRE varchar(255), PASSWORD varchar(255), medicalHistory_medicalHistoryNumber bigint, primary key (medicalHistoryNumber))
+alter table Medic_Medicamento add constraint UK_fkoy1209o8uqjbshpt4oonufk unique (medicamentos_name)
+alter table Medic_Medicamento add constraint UK_g5mxmj45eackkkgtwcb3bb6a2 unique (estudios_name)
+alter table Medic_Medicamento add constraint FKkv1df3j4hbpeawx9vvna8wbf7 foreign key (medicamentos_name) references Medicamento
+alter table Medic_Medicamento add constraint FK5a2e4t1pyfq3oxxhjocwkesjw foreign key (Medic_matricula) references Medic
+alter table Medic_Medicamento add constraint FKooe4q8hvpxf0aaq93erblf5n8 foreign key (estudios_name) references Medicamento
+alter table Medic_Patient add constraint FKf1s67wivs4q8bpae4cnmqjrfl foreign key (patients_medicalHistoryNumber) references Patient
+alter table Medic_Patient add constraint FKnvsy39h0nswkojkwfvs21h3yd foreign key (medics_matricula) references Medic
+alter table MedicalHistory add constraint FKl9mwkff2s35jwt9cg5swsnad6 foreign key (medicalHistoryNumber) references Patient
+alter table Patient add constraint FKhv4acx2p5kfc8kvg8iiv1v8me foreign key (medicalHistory_medicalHistoryNumber) references MedicalHistory
+DISCONNECT
+/*C91*/SET SCHEMA PUBLIC
+drop table if exists Estudio CASCADE 
+drop table if exists Medic CASCADE 
+drop table if exists Medic_Medicamento CASCADE 
+drop table if exists Medic_Patient CASCADE 
+drop table if exists MedicalHistory CASCADE 
+drop table if exists Medicamento CASCADE 
+drop table if exists Patient CASCADE 
+create table Estudio (NOMBRE varchar(255) not null, ESTADO varchar(255), NOTAS varchar(255), RESULTADO varchar(255), FECHA_DE_REALIZACION timestamp, primary key (NOMBRE))
+create table Medic (matricula bigint not null, CONTACTO integer, APELLIDO varchar(255), ESPECIALIDAD varchar(255), NOMBRE varchar(255), PASSWORD varchar(255), primary key (matricula))
+create table Medic_Medicamento (Medic_matricula bigint not null, medicamentos_name varchar(255) not null, estudios_name varchar(255) not null)
+create table Medic_Patient (medics_matricula bigint not null, patients_medicalHistoryNumber bigint not null)
+create table MedicalHistory (medicalHistoryNumber bigint not null, ANTECEDENTES varchar(255), MOTIVO_DE_CONSULTA varchar(255), ENFERMEDAD_ACTUAL varchar(255), ENFERMEDADES_PASADAS varchar(255), OBSERVACIONES_1 varchar(255), OBSERVACIONES_2 varchar(255), EXAMEN_FISICO varchar(255), DATOS_POSITIVOS_Y_NEGATIVOS varchar(255), primary key (medicalHistoryNumber))
+create table Medicamento (name varchar(255) not null, ESTADO varchar(255), FRECUENCIA varchar(255), NOTAS varchar(255), FECHA_DE_INICIO timestamp, primary key (name))
+create table Patient (medicalHistoryNumber bigint not null, FECHA_DE_NACIMIENTO timestamp, CONTACTO integer, DNI integer, APELLIDO varchar(255), OBRA_SOCIAL varchar(255), NOMBRE varchar(255), PASSWORD varchar(255), medicalHistory_medicalHistoryNumber bigint, primary key (medicalHistoryNumber))
+alter table Medic_Medicamento add constraint UK_fkoy1209o8uqjbshpt4oonufk unique (medicamentos_name)
+alter table Medic_Medicamento add constraint UK_g5mxmj45eackkkgtwcb3bb6a2 unique (estudios_name)
+alter table Medic_Medicamento add constraint FKkv1df3j4hbpeawx9vvna8wbf7 foreign key (medicamentos_name) references Medicamento
+alter table Medic_Medicamento add constraint FK5a2e4t1pyfq3oxxhjocwkesjw foreign key (Medic_matricula) references Medic
+alter table Medic_Medicamento add constraint FKooe4q8hvpxf0aaq93erblf5n8 foreign key (estudios_name) references Medicamento
+alter table Medic_Patient add constraint FKf1s67wivs4q8bpae4cnmqjrfl foreign key (patients_medicalHistoryNumber) references Patient
+alter table Medic_Patient add constraint FKnvsy39h0nswkojkwfvs21h3yd foreign key (medics_matricula) references Medic
+alter table MedicalHistory add constraint FKl9mwkff2s35jwt9cg5swsnad6 foreign key (medicalHistoryNumber) references Patient
+alter table Patient add constraint FKhv4acx2p5kfc8kvg8iiv1v8me foreign key (medicalHistory_medicalHistoryNumber) references MedicalHistory
+DISCONNECT
+/*C92*/SET SCHEMA PUBLIC
+drop table if exists Estudio CASCADE 
+drop table if exists Medic CASCADE 
+drop table if exists Medic_Medicamento CASCADE 
+drop table if exists Medic_Patient CASCADE 
+drop table if exists MedicalHistory CASCADE 
+drop table if exists Medicamento CASCADE 
+drop table if exists Patient CASCADE 
+create table Estudio (NOMBRE varchar(255) not null, ESTADO varchar(255), NOTAS varchar(255), RESULTADO varchar(255), FECHA_DE_REALIZACION timestamp, primary key (NOMBRE))
+create table Medic (matricula bigint not null, CONTACTO integer, APELLIDO varchar(255), ESPECIALIDAD varchar(255), NOMBRE varchar(255), PASSWORD varchar(255), primary key (matricula))
+create table Medic_Medicamento (Medic_matricula bigint not null, medicamentos_name varchar(255) not null, estudios_name varchar(255) not null)
+create table Medic_Patient (medics_matricula bigint not null, patients_medicalHistoryNumber bigint not null)
+create table MedicalHistory (medicalHistoryNumber bigint not null, ANTECEDENTES varchar(255), MOTIVO_DE_CONSULTA varchar(255), ENFERMEDAD_ACTUAL varchar(255), ENFERMEDADES_PASADAS varchar(255), OBSERVACIONES_1 varchar(255), OBSERVACIONES_2 varchar(255), EXAMEN_FISICO varchar(255), DATOS_POSITIVOS_Y_NEGATIVOS varchar(255), primary key (medicalHistoryNumber))
+create table Medicamento (name varchar(255) not null, ESTADO varchar(255), FRECUENCIA varchar(255), NOTAS varchar(255), FECHA_DE_INICIO timestamp, primary key (name))
+create table Patient (medicalHistoryNumber bigint not null, FECHA_DE_NACIMIENTO timestamp, CONTACTO integer, DNI integer, APELLIDO varchar(255), OBRA_SOCIAL varchar(255), NOMBRE varchar(255), PASSWORD varchar(255), medicalHistory_medicalHistoryNumber bigint, primary key (medicalHistoryNumber))
+alter table Medic_Medicamento add constraint UK_fkoy1209o8uqjbshpt4oonufk unique (medicamentos_name)
+alter table Medic_Medicamento add constraint UK_g5mxmj45eackkkgtwcb3bb6a2 unique (estudios_name)
+alter table Medic_Medicamento add constraint FKkv1df3j4hbpeawx9vvna8wbf7 foreign key (medicamentos_name) references Medicamento
+alter table Medic_Medicamento add constraint FK5a2e4t1pyfq3oxxhjocwkesjw foreign key (Medic_matricula) references Medic
+alter table Medic_Medicamento add constraint FKooe4q8hvpxf0aaq93erblf5n8 foreign key (estudios_name) references Medicamento
+alter table Medic_Patient add constraint FKf1s67wivs4q8bpae4cnmqjrfl foreign key (patients_medicalHistoryNumber) references Patient
+alter table Medic_Patient add constraint FKnvsy39h0nswkojkwfvs21h3yd foreign key (medics_matricula) references Medic
+alter table MedicalHistory add constraint FKl9mwkff2s35jwt9cg5swsnad6 foreign key (medicalHistoryNumber) references Patient
+alter table Patient add constraint FKhv4acx2p5kfc8kvg8iiv1v8me foreign key (medicalHistory_medicalHistoryNumber) references MedicalHistory
+DISCONNECT
+/*C93*/SET SCHEMA PUBLIC
+drop table if exists Estudio CASCADE 
+drop table if exists Medic CASCADE 
+drop table if exists Medic_Medicamento CASCADE 
+drop table if exists Medic_Patient CASCADE 
+drop table if exists MedicalHistory CASCADE 
+drop table if exists Medicamento CASCADE 
+drop table if exists Patient CASCADE 
+create table Estudio (NOMBRE varchar(255) not null, ESTADO varchar(255), NOTAS varchar(255), RESULTADO varchar(255), FECHA_DE_REALIZACION timestamp, primary key (NOMBRE))
+create table Medic (matricula bigint not null, CONTACTO integer, APELLIDO varchar(255), ESPECIALIDAD varchar(255), NOMBRE varchar(255), PASSWORD varchar(255), primary key (matricula))
+create table Medic_Medicamento (Medic_matricula bigint not null, medicamentos_name varchar(255) not null, estudios_name varchar(255) not null)
+create table Medic_Patient (medics_matricula bigint not null, patients_medicalHistoryNumber bigint not null)
+create table MedicalHistory (medicalHistoryNumber bigint not null, ANTECEDENTES varchar(255), MOTIVO_DE_CONSULTA varchar(255), ENFERMEDAD_ACTUAL varchar(255), ENFERMEDADES_PASADAS varchar(255), OBSERVACIONES_1 varchar(255), OBSERVACIONES_2 varchar(255), EXAMEN_FISICO varchar(255), DATOS_POSITIVOS_Y_NEGATIVOS varchar(255), primary key (medicalHistoryNumber))
+create table Medicamento (name varchar(255) not null, ESTADO varchar(255), FRECUENCIA varchar(255), NOTAS varchar(255), FECHA_DE_INICIO timestamp, primary key (name))
+create table Patient (medicalHistoryNumber bigint not null, FECHA_DE_NACIMIENTO timestamp, CONTACTO integer, DNI integer, APELLIDO varchar(255), OBRA_SOCIAL varchar(255), NOMBRE varchar(255), PASSWORD varchar(255), medicalHistory_medicalHistoryNumber bigint, primary key (medicalHistoryNumber))
+alter table Medic_Medicamento add constraint UK_fkoy1209o8uqjbshpt4oonufk unique (medicamentos_name)
+alter table Medic_Medicamento add constraint UK_g5mxmj45eackkkgtwcb3bb6a2 unique (estudios_name)
+alter table Medic_Medicamento add constraint FKkv1df3j4hbpeawx9vvna8wbf7 foreign key (medicamentos_name) references Medicamento
+alter table Medic_Medicamento add constraint FK5a2e4t1pyfq3oxxhjocwkesjw foreign key (Medic_matricula) references Medic
+alter table Medic_Medicamento add constraint FKooe4q8hvpxf0aaq93erblf5n8 foreign key (estudios_name) references Medicamento
+alter table Medic_Patient add constraint FKf1s67wivs4q8bpae4cnmqjrfl foreign key (patients_medicalHistoryNumber) references Patient
+alter table Medic_Patient add constraint FKnvsy39h0nswkojkwfvs21h3yd foreign key (medics_matricula) references Medic
+alter table MedicalHistory add constraint FKl9mwkff2s35jwt9cg5swsnad6 foreign key (medicalHistoryNumber) references Patient
+alter table Patient add constraint FKhv4acx2p5kfc8kvg8iiv1v8me foreign key (medicalHistory_medicalHistoryNumber) references MedicalHistory
+DISCONNECT
+/*C94*/SET SCHEMA PUBLIC
+drop table if exists Estudio CASCADE 
+drop table if exists Medic CASCADE 
+drop table if exists Medic_Medicamento CASCADE 
+drop table if exists Medic_Patient CASCADE 
+drop table if exists MedicalHistory CASCADE 
+drop table if exists Medicamento CASCADE 
+drop table if exists Patient CASCADE 
+create table Estudio (NOMBRE varchar(255) not null, ESTADO varchar(255), NOTAS varchar(255), RESULTADO varchar(255), FECHA_DE_REALIZACION timestamp, primary key (NOMBRE))
+create table Medic (matricula bigint not null, CONTACTO integer, APELLIDO varchar(255), ESPECIALIDAD varchar(255), NOMBRE varchar(255), PASSWORD varchar(255), primary key (matricula))
+create table Medic_Medicamento (Medic_matricula bigint not null, medicamentos_name varchar(255) not null, estudios_name varchar(255) not null)
+create table Medic_Patient (medics_matricula bigint not null, patients_medicalHistoryNumber bigint not null)
+create table MedicalHistory (medicalHistoryNumber bigint not null, ANTECEDENTES varchar(255), MOTIVO_DE_CONSULTA varchar(255), ENFERMEDAD_ACTUAL varchar(255), ENFERMEDADES_PASADAS varchar(255), OBSERVACIONES_1 varchar(255), OBSERVACIONES_2 varchar(255), EXAMEN_FISICO varchar(255), DATOS_POSITIVOS_Y_NEGATIVOS varchar(255), primary key (medicalHistoryNumber))
+create table Medicamento (name varchar(255) not null, ESTADO varchar(255), FRECUENCIA varchar(255), NOTAS varchar(255), FECHA_DE_INICIO timestamp, primary key (name))
+create table Patient (medicalHistoryNumber bigint not null, FECHA_DE_NACIMIENTO timestamp, CONTACTO integer, DNI integer, APELLIDO varchar(255), OBRA_SOCIAL varchar(255), NOMBRE varchar(255), PASSWORD varchar(255), medicalHistory_medicalHistoryNumber bigint, primary key (medicalHistoryNumber))
+alter table Medic_Medicamento add constraint UK_fkoy1209o8uqjbshpt4oonufk unique (medicamentos_name)
+alter table Medic_Medicamento add constraint UK_g5mxmj45eackkkgtwcb3bb6a2 unique (estudios_name)
+alter table Medic_Medicamento add constraint FKkv1df3j4hbpeawx9vvna8wbf7 foreign key (medicamentos_name) references Medicamento
+alter table Medic_Medicamento add constraint FK5a2e4t1pyfq3oxxhjocwkesjw foreign key (Medic_matricula) references Medic
+alter table Medic_Medicamento add constraint FKooe4q8hvpxf0aaq93erblf5n8 foreign key (estudios_name) references Medicamento
+alter table Medic_Patient add constraint FKf1s67wivs4q8bpae4cnmqjrfl foreign key (patients_medicalHistoryNumber) references Patient
+alter table Medic_Patient add constraint FKnvsy39h0nswkojkwfvs21h3yd foreign key (medics_matricula) references Medic
+alter table MedicalHistory add constraint FKl9mwkff2s35jwt9cg5swsnad6 foreign key (medicalHistoryNumber) references Patient
+alter table Patient add constraint FKhv4acx2p5kfc8kvg8iiv1v8me foreign key (medicalHistory_medicalHistoryNumber) references MedicalHistory
+DISCONNECT
+/*C95*/SET SCHEMA PUBLIC
+drop table if exists Estudio CASCADE 
+drop table if exists Medic CASCADE 
+drop table if exists Medic_Medicamento CASCADE 
+drop table if exists Medic_Patient CASCADE 
+drop table if exists MedicalHistory CASCADE 
+drop table if exists Medicamento CASCADE 
+drop table if exists Patient CASCADE 
+create table Estudio (NOMBRE varchar(255) not null, ESTADO varchar(255), NOTAS varchar(255), RESULTADO varchar(255), FECHA_DE_REALIZACION timestamp, primary key (NOMBRE))
+create table Medic (matricula bigint not null, CONTACTO integer, APELLIDO varchar(255), ESPECIALIDAD varchar(255), NOMBRE varchar(255), PASSWORD varchar(255), primary key (matricula))
+create table Medic_Medicamento (Medic_matricula bigint not null, medicamentos_name varchar(255) not null, estudios_name varchar(255) not null)
+create table Medic_Patient (medics_matricula bigint not null, patients_medicalHistoryNumber bigint not null)
+create table MedicalHistory (medicalHistoryNumber bigint not null, ANTECEDENTES varchar(255), MOTIVO_DE_CONSULTA varchar(255), ENFERMEDAD_ACTUAL varchar(255), ENFERMEDADES_PASADAS varchar(255), OBSERVACIONES_1 varchar(255), OBSERVACIONES_2 varchar(255), EXAMEN_FISICO varchar(255), DATOS_POSITIVOS_Y_NEGATIVOS varchar(255), primary key (medicalHistoryNumber))
+create table Medicamento (name varchar(255) not null, ESTADO varchar(255), FRECUENCIA varchar(255), NOTAS varchar(255), FECHA_DE_INICIO timestamp, primary key (name))
+create table Patient (medicalHistoryNumber bigint not null, FECHA_DE_NACIMIENTO timestamp, CONTACTO integer, DNI integer, APELLIDO varchar(255), OBRA_SOCIAL varchar(255), NOMBRE varchar(255), PASSWORD varchar(255), medicalHistory_medicalHistoryNumber bigint, primary key (medicalHistoryNumber))
+alter table Medic_Medicamento add constraint UK_fkoy1209o8uqjbshpt4oonufk unique (medicamentos_name)
+alter table Medic_Medicamento add constraint UK_g5mxmj45eackkkgtwcb3bb6a2 unique (estudios_name)
+alter table Medic_Medicamento add constraint FKkv1df3j4hbpeawx9vvna8wbf7 foreign key (medicamentos_name) references Medicamento
+alter table Medic_Medicamento add constraint FK5a2e4t1pyfq3oxxhjocwkesjw foreign key (Medic_matricula) references Medic
+alter table Medic_Medicamento add constraint FKooe4q8hvpxf0aaq93erblf5n8 foreign key (estudios_name) references Medicamento
+alter table Medic_Patient add constraint FKf1s67wivs4q8bpae4cnmqjrfl foreign key (patients_medicalHistoryNumber) references Patient
+alter table Medic_Patient add constraint FKnvsy39h0nswkojkwfvs21h3yd foreign key (medics_matricula) references Medic
+alter table MedicalHistory add constraint FKl9mwkff2s35jwt9cg5swsnad6 foreign key (medicalHistoryNumber) references Patient
+alter table Patient add constraint FKhv4acx2p5kfc8kvg8iiv1v8me foreign key (medicalHistory_medicalHistoryNumber) references MedicalHistory
+DISCONNECT
+/*C96*/SET SCHEMA PUBLIC
+drop table if exists Estudio CASCADE 
+drop table if exists Medic CASCADE 
+drop table if exists Medic_Medicamento CASCADE 
+drop table if exists Medic_Patient CASCADE 
+drop table if exists MedicalHistory CASCADE 
+drop table if exists Medicamento CASCADE 
+drop table if exists Patient CASCADE 
+create table Estudio (NOMBRE varchar(255) not null, ESTADO varchar(255), NOTAS varchar(255), RESULTADO varchar(255), FECHA_DE_REALIZACION timestamp, primary key (NOMBRE))
+create table Medic (matricula bigint not null, CONTACTO integer, APELLIDO varchar(255), ESPECIALIDAD varchar(255), NOMBRE varchar(255), PASSWORD varchar(255), primary key (matricula))
+create table Medic_Medicamento (Medic_matricula bigint not null, medicamentos_name varchar(255) not null, estudios_name varchar(255) not null)
+create table Medic_Patient (medics_matricula bigint not null, patients_medicalHistoryNumber bigint not null)
+create table MedicalHistory (medicalHistoryNumber bigint not null, ANTECEDENTES varchar(255), MOTIVO_DE_CONSULTA varchar(255), ENFERMEDAD_ACTUAL varchar(255), ENFERMEDADES_PASADAS varchar(255), OBSERVACIONES_1 varchar(255), OBSERVACIONES_2 varchar(255), EXAMEN_FISICO varchar(255), DATOS_POSITIVOS_Y_NEGATIVOS varchar(255), primary key (medicalHistoryNumber))
+create table Medicamento (name varchar(255) not null, ESTADO varchar(255), FRECUENCIA varchar(255), NOTAS varchar(255), FECHA_DE_INICIO timestamp, primary key (name))
+create table Patient (medicalHistoryNumber bigint not null, FECHA_DE_NACIMIENTO timestamp, CONTACTO integer, DNI integer, APELLIDO varchar(255), OBRA_SOCIAL varchar(255), NOMBRE varchar(255), PASSWORD varchar(255), medicalHistory_medicalHistoryNumber bigint, primary key (medicalHistoryNumber))
+alter table Medic_Medicamento add constraint UK_fkoy1209o8uqjbshpt4oonufk unique (medicamentos_name)
+alter table Medic_Medicamento add constraint UK_g5mxmj45eackkkgtwcb3bb6a2 unique (estudios_name)
+alter table Medic_Medicamento add constraint FKkv1df3j4hbpeawx9vvna8wbf7 foreign key (medicamentos_name) references Medicamento
+alter table Medic_Medicamento add constraint FK5a2e4t1pyfq3oxxhjocwkesjw foreign key (Medic_matricula) references Medic
+alter table Medic_Medicamento add constraint FKooe4q8hvpxf0aaq93erblf5n8 foreign key (estudios_name) references Medicamento
+alter table Medic_Patient add constraint FKf1s67wivs4q8bpae4cnmqjrfl foreign key (patients_medicalHistoryNumber) references Patient
+alter table Medic_Patient add constraint FKnvsy39h0nswkojkwfvs21h3yd foreign key (medics_matricula) references Medic
+alter table MedicalHistory add constraint FKl9mwkff2s35jwt9cg5swsnad6 foreign key (medicalHistoryNumber) references Patient
+alter table Patient add constraint FKhv4acx2p5kfc8kvg8iiv1v8me foreign key (medicalHistory_medicalHistoryNumber) references MedicalHistory
+DISCONNECT
+/*C97*/SET SCHEMA PUBLIC
+drop table if exists Estudio CASCADE 
+drop table if exists Medic CASCADE 
+drop table if exists Medic_Medicamento CASCADE 
+drop table if exists Medic_Patient CASCADE 
+drop table if exists MedicalHistory CASCADE 
+drop table if exists Medicamento CASCADE 
+drop table if exists Patient CASCADE 
+create table Estudio (NOMBRE varchar(255) not null, ESTADO varchar(255), NOTAS varchar(255), RESULTADO varchar(255), FECHA_DE_REALIZACION timestamp, primary key (NOMBRE))
+create table Medic (matricula bigint not null, CONTACTO integer, APELLIDO varchar(255), ESPECIALIDAD varchar(255), NOMBRE varchar(255), PASSWORD varchar(255), primary key (matricula))
+create table Medic_Medicamento (Medic_matricula bigint not null, medicamentos_name varchar(255) not null, estudios_name varchar(255) not null)
+create table Medic_Patient (medics_matricula bigint not null, patients_medicalHistoryNumber bigint not null)
+create table MedicalHistory (medicalHistoryNumber bigint not null, ANTECEDENTES varchar(255), MOTIVO_DE_CONSULTA varchar(255), ENFERMEDAD_ACTUAL varchar(255), ENFERMEDADES_PASADAS varchar(255), OBSERVACIONES_1 varchar(255), OBSERVACIONES_2 varchar(255), EXAMEN_FISICO varchar(255), DATOS_POSITIVOS_Y_NEGATIVOS varchar(255), primary key (medicalHistoryNumber))
+create table Medicamento (name varchar(255) not null, ESTADO varchar(255), FRECUENCIA varchar(255), NOTAS varchar(255), FECHA_DE_INICIO timestamp, primary key (name))
+create table Patient (medicalHistoryNumber bigint not null, FECHA_DE_NACIMIENTO timestamp, CONTACTO integer, DNI integer, APELLIDO varchar(255), OBRA_SOCIAL varchar(255), NOMBRE varchar(255), PASSWORD varchar(255), medicalHistory_medicalHistoryNumber bigint, primary key (medicalHistoryNumber))
+alter table Medic_Medicamento add constraint UK_fkoy1209o8uqjbshpt4oonufk unique (medicamentos_name)
+alter table Medic_Medicamento add constraint UK_g5mxmj45eackkkgtwcb3bb6a2 unique (estudios_name)
+alter table Medic_Medicamento add constraint FKkv1df3j4hbpeawx9vvna8wbf7 foreign key (medicamentos_name) references Medicamento
+alter table Medic_Medicamento add constraint FK5a2e4t1pyfq3oxxhjocwkesjw foreign key (Medic_matricula) references Medic
+alter table Medic_Medicamento add constraint FKooe4q8hvpxf0aaq93erblf5n8 foreign key (estudios_name) references Medicamento
+alter table Medic_Patient add constraint FKf1s67wivs4q8bpae4cnmqjrfl foreign key (patients_medicalHistoryNumber) references Patient
+alter table Medic_Patient add constraint FKnvsy39h0nswkojkwfvs21h3yd foreign key (medics_matricula) references Medic
+alter table MedicalHistory add constraint FKl9mwkff2s35jwt9cg5swsnad6 foreign key (medicalHistoryNumber) references Patient
+alter table Patient add constraint FKhv4acx2p5kfc8kvg8iiv1v8me foreign key (medicalHistory_medicalHistoryNumber) references MedicalHistory
+DISCONNECT
+/*C98*/SET SCHEMA PUBLIC
+drop table if exists Estudio CASCADE 
+drop table if exists Medic CASCADE 
+drop table if exists Medic_Medicamento CASCADE 
+drop table if exists Medic_Patient CASCADE 
+drop table if exists MedicalHistory CASCADE 
+drop table if exists Medicamento CASCADE 
+drop table if exists Patient CASCADE 
+create table Estudio (NOMBRE varchar(255) not null, ESTADO varchar(255), NOTAS varchar(255), RESULTADO varchar(255), FECHA_DE_REALIZACION timestamp, primary key (NOMBRE))
+create table Medic (matricula bigint not null, CONTACTO integer, APELLIDO varchar(255), ESPECIALIDAD varchar(255), NOMBRE varchar(255), PASSWORD varchar(255), primary key (matricula))
+create table Medic_Medicamento (Medic_matricula bigint not null, medicamentos_name varchar(255) not null, estudios_name varchar(255) not null)
+create table Medic_Patient (medics_matricula bigint not null, patients_medicalHistoryNumber bigint not null)
+create table MedicalHistory (medicalHistoryNumber bigint not null, ANTECEDENTES varchar(255), MOTIVO_DE_CONSULTA varchar(255), ENFERMEDAD_ACTUAL varchar(255), ENFERMEDADES_PASADAS varchar(255), OBSERVACIONES_1 varchar(255), OBSERVACIONES_2 varchar(255), EXAMEN_FISICO varchar(255), DATOS_POSITIVOS_Y_NEGATIVOS varchar(255), primary key (medicalHistoryNumber))
+create table Medicamento (name varchar(255) not null, ESTADO varchar(255), FRECUENCIA varchar(255), NOTAS varchar(255), FECHA_DE_INICIO timestamp, primary key (name))
+create table Patient (medicalHistoryNumber bigint not null, FECHA_DE_NACIMIENTO timestamp, CONTACTO integer, DNI integer, APELLIDO varchar(255), OBRA_SOCIAL varchar(255), NOMBRE varchar(255), PASSWORD varchar(255), medicalHistory_medicalHistoryNumber bigint, primary key (medicalHistoryNumber))
+alter table Medic_Medicamento add constraint UK_fkoy1209o8uqjbshpt4oonufk unique (medicamentos_name)
+alter table Medic_Medicamento add constraint UK_g5mxmj45eackkkgtwcb3bb6a2 unique (estudios_name)
+alter table Medic_Medicamento add constraint FKkv1df3j4hbpeawx9vvna8wbf7 foreign key (medicamentos_name) references Medicamento
+alter table Medic_Medicamento add constraint FK5a2e4t1pyfq3oxxhjocwkesjw foreign key (Medic_matricula) references Medic
+alter table Medic_Medicamento add constraint FKooe4q8hvpxf0aaq93erblf5n8 foreign key (estudios_name) references Medicamento
+alter table Medic_Patient add constraint FKf1s67wivs4q8bpae4cnmqjrfl foreign key (patients_medicalHistoryNumber) references Patient
+alter table Medic_Patient add constraint FKnvsy39h0nswkojkwfvs21h3yd foreign key (medics_matricula) references Medic
+alter table MedicalHistory add constraint FKl9mwkff2s35jwt9cg5swsnad6 foreign key (medicalHistoryNumber) references Patient
+alter table Patient add constraint FKhv4acx2p5kfc8kvg8iiv1v8me foreign key (medicalHistory_medicalHistoryNumber) references MedicalHistory
+DISCONNECT
+/*C99*/SET SCHEMA PUBLIC
+drop table if exists Estudio CASCADE 
+drop table if exists Medic CASCADE 
+drop table if exists Medic_Medicamento CASCADE 
+drop table if exists Medic_Patient CASCADE 
+drop table if exists MedicalHistory CASCADE 
+drop table if exists Medicamento CASCADE 
+drop table if exists Patient CASCADE 
+create table Estudio (NOMBRE varchar(255) not null, ESTADO varchar(255), NOTAS varchar(255), RESULTADO varchar(255), FECHA_DE_REALIZACION timestamp, primary key (NOMBRE))
+create table Medic (matricula bigint not null, CONTACTO integer, APELLIDO varchar(255), ESPECIALIDAD varchar(255), NOMBRE varchar(255), PASSWORD varchar(255), primary key (matricula))
+create table Medic_Medicamento (Medic_matricula bigint not null, medicamentos_name varchar(255) not null, estudios_name varchar(255) not null)
+create table Medic_Patient (medics_matricula bigint not null, patients_medicalHistoryNumber bigint not null)
+create table MedicalHistory (medicalHistoryNumber bigint not null, ANTECEDENTES varchar(255), MOTIVO_DE_CONSULTA varchar(255), ENFERMEDAD_ACTUAL varchar(255), ENFERMEDADES_PASADAS varchar(255), OBSERVACIONES_1 varchar(255), OBSERVACIONES_2 varchar(255), EXAMEN_FISICO varchar(255), DATOS_POSITIVOS_Y_NEGATIVOS varchar(255), primary key (medicalHistoryNumber))
+create table Medicamento (name varchar(255) not null, ESTADO varchar(255), FRECUENCIA varchar(255), NOTAS varchar(255), FECHA_DE_INICIO timestamp, primary key (name))
+create table Patient (medicalHistoryNumber bigint not null, FECHA_DE_NACIMIENTO timestamp, CONTACTO integer, DNI integer, APELLIDO varchar(255), OBRA_SOCIAL varchar(255), NOMBRE varchar(255), PASSWORD varchar(255), medicalHistory_medicalHistoryNumber bigint, primary key (medicalHistoryNumber))
+alter table Medic_Medicamento add constraint UK_fkoy1209o8uqjbshpt4oonufk unique (medicamentos_name)
+alter table Medic_Medicamento add constraint UK_g5mxmj45eackkkgtwcb3bb6a2 unique (estudios_name)
+alter table Medic_Medicamento add constraint FKkv1df3j4hbpeawx9vvna8wbf7 foreign key (medicamentos_name) references Medicamento
+alter table Medic_Medicamento add constraint FK5a2e4t1pyfq3oxxhjocwkesjw foreign key (Medic_matricula) references Medic
+alter table Medic_Medicamento add constraint FKooe4q8hvpxf0aaq93erblf5n8 foreign key (estudios_name) references Medicamento
+alter table Medic_Patient add constraint FKf1s67wivs4q8bpae4cnmqjrfl foreign key (patients_medicalHistoryNumber) references Patient
+alter table Medic_Patient add constraint FKnvsy39h0nswkojkwfvs21h3yd foreign key (medics_matricula) references Medic
+alter table MedicalHistory add constraint FKl9mwkff2s35jwt9cg5swsnad6 foreign key (medicalHistoryNumber) references Patient
+alter table Patient add constraint FKhv4acx2p5kfc8kvg8iiv1v8me foreign key (medicalHistory_medicalHistoryNumber) references MedicalHistory
+DISCONNECT
+/*C100*/SET SCHEMA PUBLIC
+drop table if exists Estudio CASCADE 
+drop table if exists Medic CASCADE 
+drop table if exists Medic_Medicamento CASCADE 
+drop table if exists Medic_Patient CASCADE 
+drop table if exists MedicalHistory CASCADE 
+drop table if exists Medicamento CASCADE 
+drop table if exists Patient CASCADE 
+create table Estudio (NOMBRE varchar(255) not null, ESTADO varchar(255), NOTAS varchar(255), RESULTADO varchar(255), FECHA_DE_REALIZACION timestamp, primary key (NOMBRE))
+create table Medic (matricula bigint not null, CONTACTO integer, APELLIDO varchar(255), ESPECIALIDAD varchar(255), NOMBRE varchar(255), PASSWORD varchar(255), primary key (matricula))
+create table Medic_Medicamento (Medic_matricula bigint not null, medicamentos_name varchar(255) not null, estudios_name varchar(255) not null)
+create table Medic_Patient (medics_matricula bigint not null, patients_medicalHistoryNumber bigint not null)
+create table MedicalHistory (medicalHistoryNumber bigint not null, ANTECEDENTES varchar(255), MOTIVO_DE_CONSULTA varchar(255), ENFERMEDAD_ACTUAL varchar(255), ENFERMEDADES_PASADAS varchar(255), OBSERVACIONES_1 varchar(255), OBSERVACIONES_2 varchar(255), EXAMEN_FISICO varchar(255), DATOS_POSITIVOS_Y_NEGATIVOS varchar(255), primary key (medicalHistoryNumber))
+create table Medicamento (name varchar(255) not null, ESTADO varchar(255), FRECUENCIA varchar(255), NOTAS varchar(255), FECHA_DE_INICIO timestamp, primary key (name))
+create table Patient (medicalHistoryNumber bigint not null, FECHA_DE_NACIMIENTO timestamp, CONTACTO integer, DNI integer, APELLIDO varchar(255), OBRA_SOCIAL varchar(255), NOMBRE varchar(255), PASSWORD varchar(255), medicalHistory_medicalHistoryNumber bigint, primary key (medicalHistoryNumber))
+alter table Medic_Medicamento add constraint UK_fkoy1209o8uqjbshpt4oonufk unique (medicamentos_name)
+alter table Medic_Medicamento add constraint UK_g5mxmj45eackkkgtwcb3bb6a2 unique (estudios_name)
+alter table Medic_Medicamento add constraint FKkv1df3j4hbpeawx9vvna8wbf7 foreign key (medicamentos_name) references Medicamento
+alter table Medic_Medicamento add constraint FK5a2e4t1pyfq3oxxhjocwkesjw foreign key (Medic_matricula) references Medic
+alter table Medic_Medicamento add constraint FKooe4q8hvpxf0aaq93erblf5n8 foreign key (estudios_name) references Medicamento
+alter table Medic_Patient add constraint FKf1s67wivs4q8bpae4cnmqjrfl foreign key (patients_medicalHistoryNumber) references Patient
+alter table Medic_Patient add constraint FKnvsy39h0nswkojkwfvs21h3yd foreign key (medics_matricula) references Medic
+alter table MedicalHistory add constraint FKl9mwkff2s35jwt9cg5swsnad6 foreign key (medicalHistoryNumber) references Patient
+alter table Patient add constraint FKhv4acx2p5kfc8kvg8iiv1v8me foreign key (medicalHistory_medicalHistoryNumber) references MedicalHistory
