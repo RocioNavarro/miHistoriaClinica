@@ -150,7 +150,7 @@ public class HCSystem {
     }
     public List<Patient> getPatients(Medic medic1) {
         return runInTransaction(ds->
-                ds.medics_patients().listPatientForMedics(medic1.getMatricula()));
+                ds.medics_patients().listPatientForMedics());
     }
     private <E> E runInTransaction(Function<HCSystemRepository, E> closure){
         final EntityManager entityManager = factory.createEntityManager();
